@@ -1,8 +1,13 @@
 #Project-2 Story Finder Finale
 
-#### Youtube video Link (required)
+#### Youtube video Link ------------>       https://youtu.be/B_cSN2OOcpI <---------------------
 TODO - Add your team's unlisted youtube video link here.
 #### Implementation details (recommended)
+Notes on the project, Mapview couldnt be implimented in time. the MeetUp *Lab* is hacked into the recyclerview
+The app does use location, it is embedded to the search. though i didnt set a radius parameter
+Only 20 cards are displayed per card this is due to the page size of the url request (Can be changed)
+
+This is v4 of my attempt i copy pasted the project into the folder, (worked before)
 
 ## Problem statement:
 You are to build on your project1 by adding real world functionality into your app. You must query an appropriate API, and populate cards. By default, you must work with the Meetup API. But you can decide to use any other API after asking on Piazza(IMDB,etc)
@@ -32,27 +37,29 @@ These requirements are divided into tiers, you are required to complete all the 
 
 **Tier 1 (25% of grade acheived):**
 
-* You are able to query necessary APIs using Volley
-* You print the Json onto the console
+* You are able to query necessary APIs using Volley <--------------------------------------------- Done
+* You print the Json onto the console <----------------------------------------------------------- Done
 
 **Tier 2 (60% of grade acheived):**
 
-* The app converts the Json into class objects
-* The app uses the search widget to query the api
-* You are able to access the location sensors on the device to find the Latitude and Longitude. Log the location into the console even if your API does not require location.
+* The app converts the Json into class objects <-------------------------------------------------- Done
+* The app uses the search widget to query the api <----------------------------------------------- Done
+* You are able to access the location sensors on the device to find the Latitude and Longitude.
+Log the location into the console even if your API does not require location. <------------------- Done
 
 **Tier 3 (100% of grade acheived):**
 
-* The app works seamlessly.
-* Real time search.
-* Your cards have the necessary fields based on the API you use(look at the meetup example mentioned above).
-* Material design and aesthetically pleasing.
+* The app works seamlessly. <----------------I think its pretty Great----------------------------- Done
+* Real time search. <----------------------------------------------------------------------------- Done
+* Your cards have the necessary fields based on the API you use
+(look at the meetup example mentioned above).<---------------------------------------------------- Done
+* Material design and aesthetically pleasing.<---------------------------------------------------- Done
 
 **Optional requirements**(to make up for less work done in project 1)
 
-* Support for the links to open in Webview.
+* Support for the links to open in Webview. <-------- ------------------------------------------ Not Done
 * Additional functionality depending on API you use:
-* Eg: A map view if using Meetup API
+* Eg: A map view if using Meetup API  <-------- ----------------------- Not Done (Could impliment in time)
 * Another Ex: Ability to view videos if using the IMDB API
 
 
