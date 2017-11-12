@@ -13,9 +13,14 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.vacuity.myapplication.R;
 import com.vacuity.myapplication.app.App;
+import com.vacuity.myapplication.connection.YelpAPITest;
 import com.vacuity.myapplication.model.MeetUp;
+import com.vacuity.myapplication.model.MeetUpLab;
+import com.vacuity.myapplication.models.Business;
 import com.vacuity.myapplication.volley.VolleySingleton;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,7 +33,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
     private static List<MeetUp> myMeetUps;
+    private static ArrayList<Business> mBusiness;
     private OnClickListener listener;
+    private static MeetUpLab meetUpLab;
+    public static YelpAPITest yelpAPITest;
+
     public static MeetUp get(UUID id){
         for(MeetUp tMU : myMeetUps){
             if(tMU.getmID().equals(id)){
@@ -37,7 +46,34 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         return null;
     }
+    public static void inject(){
+        try {
+            yelpAPITest = new YelpAPITest();
+            yelpAPITest.execute();
+            mBusiness = new ArrayList<>();
+            mBusiness = yelpAPITest.getResults();
 
+            //Log.e("Response", String.valueOf(mBusiness.get(0).getName()));
+
+            //yelpAPITest.buissnessSearchTest();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        meetUpLab = new MeetUpLab();
+//        mBusiness = meetUpLab.getBus();
+        int max = myMeetUps.size();
+        if(mBusiness!= null){
+        if(mBusiness.size() < myMeetUps.size()){
+            max = mBusiness.size();
+        }
+        for(int i = 0; i < max; i++){
+                myMeetUps.get(i).setmTitle(mBusiness.get(i).getName());
+                myMeetUps.get(i).setmDescription(mBusiness.get(i).getPhone());
+                myMeetUps.get(i).setmImg(mBusiness.get(i).getImageUrl());
+            }
+
+        }
+    }
 
 
 
@@ -64,7 +100,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         MeetUp aMeetUp = myMeetUps.get(position);
-
         CardViewHolder cardViewHolder = (CardViewHolder) holder;
         cardViewHolder.setTitle(aMeetUp.getmTitle());
         cardViewHolder.setDescription(aMeetUp.getmDescription());
@@ -74,6 +109,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
     public void updateDataSet(List<MeetUp> modelList) {
+        inject();
         this.myMeetUps.clear();
         this.myMeetUps.addAll(modelList);
         notifyDataSetChanged();

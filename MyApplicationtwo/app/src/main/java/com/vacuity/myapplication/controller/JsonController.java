@@ -9,21 +9,38 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.vacuity.myapplication.ApiConfig;
 import com.vacuity.myapplication.app.App;
+import com.vacuity.myapplication.connection.YelpAPITest;
 import com.vacuity.myapplication.model.MeetUp;
 import com.vacuity.myapplication.request.JsonRequest;
 import com.vacuity.myapplication.volley.VolleySingleton;
 
+import java.io.IOException;
 import java.util.List;
 
 public class JsonController {
     private final int TAG = 100;
 
     private OnResponseListener responseListener;
+    YelpAPITest yelpAPITest;
+
 
     public JsonController(OnResponseListener responseListener) {
         this.responseListener = responseListener;
     }
+
+    public void request(){
+        try {
+            int cats = 4;
+            yelpAPITest = new YelpAPITest();
+            yelpAPITest.execute();
+            //yelpAPITest.buissnessSearchTest();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+}
+
     public void sendRequest(String query){
+
 
         // Request Method
         int method = Request.Method.GET;
@@ -32,7 +49,10 @@ public class JsonController {
         String url = ApiConfig.getData(query);
 
 
+
+
         // Create new request using JsonRequest
+
         JsonRequest request
                 = new JsonRequest(
                 method,

@@ -21,10 +21,12 @@ public class JsonRequest extends Request<List<MeetUp>>{
 
 
     private Response.Listener<List<MeetUp>> successListener;
+    //YelpAPITest yelpAPITest;
 
     public JsonRequest (int method, String url,
                         Response.Listener<List<MeetUp>> successListener,
                         Response.ErrorListener errorListener){
+
         super(method, url, errorListener);
         this.successListener = successListener;
     }
@@ -37,6 +39,7 @@ public class JsonRequest extends Request<List<MeetUp>>{
         Log.i("JSON Response from API", jsonString);
         try {
             jsonArray = new JSONArray(jsonString);
+            Log.e("JSON", jsonString);
             myMeetUps = MeetUp.parseJASON(jsonArray);
         }
         catch (JSONException e) {
