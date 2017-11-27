@@ -3,8 +3,6 @@ package com.vacuity.myapplication.connection;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.vacuity.myapplication.adapter.RecyclerViewAdapter;
-import com.vacuity.myapplication.model.MeetUpLab;
 import com.vacuity.myapplication.models.AccessToken;
 import com.vacuity.myapplication.models.Business;
 import com.vacuity.myapplication.models.SearchResponse;
@@ -52,7 +50,7 @@ public class YelpAPITest extends AsyncTask {
 
     @Override
     protected void onPostExecute(Object o) {
-        MeetUpLab mLab = new MeetUpLab();
+
         //mLab.setYelpList(o);
         super.onPostExecute(o);
     }
@@ -141,7 +139,7 @@ public class YelpAPITest extends AsyncTask {
 
         @Override
         protected void onPostExecute(ArrayList<Business> businesses) {
-            RecyclerViewAdapter.receiveYelp(businesses);
+//            RecyclerViewAdapter.receiveYelp(businesses);
             Log.e("Status", "Process Finished");
         }
 

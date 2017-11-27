@@ -9,6 +9,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,14 +25,16 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.vacuity.myapplication.R;
 import com.vacuity.myapplication.connection.YelpFusionApi;
 import com.vacuity.myapplication.connection.YelpFusionApiFactory;
-import com.vacuity.myapplication.model.YelpLab;
+import com.vacuity.myapplication.models.model.YelpLab;
 import com.vacuity.myapplication.models.Business;
 import com.vacuity.myapplication.models.SearchResponse;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,7 +49,9 @@ import static junit.framework.Assert.assertNotNull;
  * Created by Gary Straub on 7/24/2017.
  */
 
-public class MapFragment extends SupportMapFragment{
+public class MapFragment extends SupportMapFragment
+        implements
+        SearchView.OnQueryTextListener {
 
     private static final String TAG = "MapFragment";
     private static final String[] LOCATION_PERMISSIONS = new String[]{
@@ -60,8 +66,12 @@ public class MapFragment extends SupportMapFragment{
     private Bitmap mMapImage;
     private Business mMapItem;
     private Location mCurrentLocation;
-    private YelpLab yelpLab;
+    private YelpLab sYelpLab;
+    private Boolean searchBar;
+    private Boolean searchClub;
+    private Boolean searchRestaurant;
     private ArrayList<Business> currentLocations;
+    private Menu mMenu;
 
 
     public static MapFragment newInstance(){
@@ -84,11 +94,20 @@ public class MapFragment extends SupportMapFragment{
             e.printStackTrace();
         }
     }
-    private void setResults(ArrayList<Business> myResults){
-        this.currentLocations = myResults;
+    public void setResults(ArrayList<Business> r){
+        currentLocations = r;
+        for(int i=0; i<currentLocations.size();i++){
+            //Log.e("Results Print", myRes.get(i).getName());
+        }
         updateUI();
     }
 
+    private void getList(){
+        currentLocations = sYelpLab.getBusiness();
+        if(currentLocations == null){
+            defaultSearch();
+        }
+    }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -96,8 +115,8 @@ public class MapFragment extends SupportMapFragment{
 //                LocationManager.GPS_PROVIDER, 5000, 10, new MyLocationListener());
 
         super.onCreate(savedInstanceState);
-//        setHasOptionsMenu(true);
-        yelpLab = YelpLab.get(getActivity());
+        setHasOptionsMenu(true);
+        sYelpLab = YelpLab.get(getActivity());
 
         //mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -106,8 +125,8 @@ public class MapFragment extends SupportMapFragment{
                     @Override
                     public void onConnected(@Nullable Bundle bundle) {
                         getActivity().invalidateOptionsMenu();
-                        renewLocation();
-                        defaultSearch();
+                        //renewLocation();
+                        getList();
                     }
 
                     @Override
@@ -125,6 +144,9 @@ public class MapFragment extends SupportMapFragment{
             }
         });
     }
+
+
+
     @Override
     public void onStart() {
         super.onStart();
@@ -143,28 +165,109 @@ public class MapFragment extends SupportMapFragment{
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_search);
 
-        inflater.inflate(R.menu.fragment_locatr, menu);
-
-        MenuItem searchItem = menu.findItem(R.id.action_locate);
-        searchItem.setEnabled(mClient.isConnected());
+        mMenu = menu;
+        searchBar = menu.findItem(R.id.menu_bar).isChecked();
+        searchClub = menu.findItem(R.id.menu_club).isChecked();
+        searchRestaurant = menu.findItem(R.id.menu_restaurant).isChecked();
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+        searchView.setOnQueryTextListener(this);
+        searchView.setIconifiedByDefault(true);
+        searchView.setQueryHint("Search");
+        searchView.setSubmitButtonEnabled(true);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.action_locate:
+//                if (hasLocationPermission()) {
+//                    renewLocation();
+//                    updateUI();
+//                } else {
+//                    requestPermissions(LOCATION_PERMISSIONS,
+//                            REQUEST_LOCATION_PERMISSIONS);
+//                }
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
         switch (item.getItemId()) {
-            case R.id.action_locate:
-                if (hasLocationPermission()) {
-                    renewLocation();
-                    updateUI();
-                } else {
-                    requestPermissions(LOCATION_PERMISSIONS,
-                            REQUEST_LOCATION_PERMISSIONS);
+            case R.id.action_search:
+                Log.e("Menu", "action Search");
+                return true;
+
+            case R.id.menu_bar:
+                if(item.isChecked()){
+                    item.setChecked(false);
+                    this.searchBar = false;
+                }else{
+                    item.setChecked(true);
+                    this.searchBar = true;
+                }
+                return true;
+            case R.id.menu_club:
+                if(item.isChecked()){
+                    item.setChecked(false);
+                    this.searchClub = false;
+                }else{
+                    item.setChecked(true);
+                    this.searchClub = true;
+                }
+                return true;
+            case R.id.menu_restaurant:
+                if(item.isChecked()){
+                    item.setChecked(false);
+                    this.searchRestaurant = false;
+                }else{
+                    item.setChecked(true);
+                    this.searchRestaurant = true;
                 }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        Log.e("Menu", "Query Search");
+        Map<String, String> paramters = new HashMap<>();
+        String [] queryTerms = query.split(" ");
+        for(String ss : queryTerms){
+            paramters.put("term", ss);
+        }
+        paramters.put("location", "94132");
+
+        try{
+            //MapFragment.SearchTask searchTask = new MapFragment.SearchTask();
+            SearchTask searchTask = new SearchTask();
+            searchTask.execute(paramters);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+
+        //YelpLab sYelpLab = YelpLab.get(getActivity());
+        //myMap.put("term", "Restaurant");
+
+//        myMap.put("location", "sf");
+//
+//        //ArrayList<Business> myYelps = sYelpLab.getBusiness();
+        Log.e("Menu", "Query Search");
+//        sYelpLab.getBusiness();
+//        updateUI();
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
@@ -190,7 +293,6 @@ public class MapFragment extends SupportMapFragment{
                     public void onLocationChanged(Location location) {
                         Log.e(TAG, "Got a fix: " + location);
                         mCurrentLocation = location;
-                        defaultSearch();
                         updateUI();
                     }
                 });
@@ -204,6 +306,7 @@ public class MapFragment extends SupportMapFragment{
         if (mMap == null ) {
             return;
         }
+        getList();
         ArrayList<LatLng> pList = new ArrayList<>();
         if(currentLocations != null){
             for(int i = 0; i< currentLocations.size(); i++) {
@@ -212,14 +315,14 @@ public class MapFragment extends SupportMapFragment{
                 pList.add(tmp);
 //                LatLng myPoint = new LatLng(currentLocations.get(i).getCoordinates().getLatitude(),
 //                        currentLocations.get(i).getCoordinates().getLatitude());
-                Log.e("MarkerGPS", String.valueOf(currentLocations.get(i).getCoordinates().getLatitude()));
+                //Log.e("MarkerGPS", String.valueOf(currentLocations.get(i).getCoordinates().getLatitude()));
                 mMap.addMarker(new MarkerOptions().position(pList.get(i)).title(currentLocations.get(i).getName()));
             }
 
         }
         LatLng sydney = new LatLng(37.723894, -122.479274);
 
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.addMarker(new MarkerOptions().position(sydney).title("SF State"));
 
         if(mCurrentLocation!=null){
             LatLng myPoint = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
@@ -229,29 +332,13 @@ public class MapFragment extends SupportMapFragment{
             Log.e("Marker", "Location Marker not set");
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney)
+                .zoom(15)
+                .bearing(4)
+                .tilt(30)
+                .build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-//        LatLng itemPoint = new LatLng(mMapItem.getCoordinates().getLatitude(), mMapItem.getCoordinates().getLongitude());
-        //LatLng sydney = new LatLng(lat, lon);
-//        LatLng myPoint = new LatLng(
-//                mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
-
-        //BitmapDescriptor itemBitmap = BitmapDescriptorFactory.fromBitmap(mMapImage);
-        //MarkerOptions itemMarker = new MarkerOptions().position(itemPoint).icon(itemBitmap);
-        //MarkerOptions myMarker = new MarkerOptions().position(myPoint);
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        //mMap.clear();
-        //mMap.addMarker(itemMarker);
-        //mMap.addMarker(myMarker);
-
-//        LatLngBounds bounds = new LatLngBounds.Builder()
-//                .include(itemPoint)
-//                .include(myPoint)
-//                .build();
-
-        //int margin = getResources().getDimensionPixelSize(R.dimen.map_inset_margin);
-//        CameraUpdate update = CameraUpdateFactory.newLatLngBounds(bounds, margin);
-//        mMap.animateCamera(update);
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
 
@@ -265,7 +352,7 @@ public class MapFragment extends SupportMapFragment{
 
         public SearchTask()throws IOException {
             yelpFusionApiFactory = new YelpFusionApiFactory();
-            //yelpLab.get();
+            //sYelpLab.get();
         }
         private ArrayList<Business> buissnessSearchTest(Map<String, String>[] mMAp)throws IOException{
             Call<SearchResponse> call = yelpFusionApi.getBusinessSearch(mMAp[0]);
@@ -273,7 +360,7 @@ public class MapFragment extends SupportMapFragment{
             assertNotNull(response);
             //Log.e("Response", String.valueOf(response.getBusinesses().size()));
             for(int i =0; i<response.getBusinesses().size(); i++){
-                Log.e("Response", String.valueOf(response.getBusinesses().get(i).getName()));
+                //Log.e("Response", String.valueOf(response.getBusinesses().get(i).getName()));
             }
             return response.getBusinesses();
         }
@@ -292,7 +379,7 @@ public class MapFragment extends SupportMapFragment{
 
         @Override
         protected void onPostExecute(ArrayList<Business> businesses) {
-            yelpLab.submitResults(businesses);
+            sYelpLab.submitResults(businesses);
             setResults(businesses);
             super.onPostExecute(businesses);
         }

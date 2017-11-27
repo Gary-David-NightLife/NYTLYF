@@ -25,27 +25,29 @@
         <!--</activity>-->
 
 
-        <activity android:name=".uiextras.TabActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+        <!--<activity android:name=".activity.SplashActivity">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
 
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
 
+        <!--</activity>-->
+         <!--<activity android:name=".tmpappfolder.YelpListActivity">-->
+         <!--<intent-filter>-->
+         <!--<action android:name="android.intent.action.MAIN"/>-->
+
+
+         <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+         <!--</intent-filter>-->
+
+         <!--</activity>-->
+
+         <activity android:name=".activity.YelpPagerActivity">
+         </activity>
+        <activity android:name=".userinterface.TabActivity">
         </activity>
-         <activity android:name=".tmpappfolder.YelpListActivity">
-         <intent-filter>
-         <action android:name="android.intent.action.MAIN"/>
-
-
-         <category android:name="android.intent.category.LAUNCHER"/>
-         </intent-filter>
-
-         </activity>
-
-         <activity android:name=".tmpappfolder.YelpPagerActivity">
-         </activity>
 
 
          <activity android:name=".activity.SplashActivity"
@@ -59,10 +61,8 @@
 
 
          </activity>
-         <activity android:name=".activity.SingleMeetUpActivity">
-         </activity>
 
-         <!--<activity-->
+        <!--<activity-->
          <!--android:name="com.vacuity.myapplication.MainActivity"-->
          <!--android:theme="@style/AppTheme.NoActionBar">-->
 
@@ -73,18 +73,8 @@
          <!--<category android:name="android.intent.category.LAUNCHER" />-->
          <!--</intent-filter>-->
          <!--</activity>-->
-        <activity
-            android:name="com.vacuity.myapplication.MainActivity">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-         <meta-data
+        <meta-data
          android:name="com.google.android.geo.API_KEY"
          android:value="AIzaSyBcHyDY4GmKBV8ArZwuak6TMoqqKGIkp2U"/>
          <!--<activity-->

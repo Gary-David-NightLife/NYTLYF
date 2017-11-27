@@ -9,10 +9,6 @@
         android:enabled="true"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView" />
-    <item
-        android:id="@+id/test"
-        android:icon="@drawable/common_google_signin_btn_icon_dark"
-        android:title="@string/map" />
     <group
         android:checkableBehavior="all"
         android:menuCategory="container">
