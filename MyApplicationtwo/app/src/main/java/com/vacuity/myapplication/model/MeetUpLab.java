@@ -54,6 +54,9 @@ public class MeetUpLab {
     public void setLIST(List<MeetUp> newList){
     mMeetUps = newList;
     }
+    public void setYelpList(ArrayList<Business> newList){
+        mBuissness = newList;
+    }
     public ArrayList<Business> getBus(){
         return mBuissness;
     }

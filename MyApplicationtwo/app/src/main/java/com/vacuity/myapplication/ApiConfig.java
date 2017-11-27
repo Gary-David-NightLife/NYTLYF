@@ -33,7 +33,7 @@ public class ApiConfig {
     private static String KEY_MEETUP = "39565db356f354976116a2d1d436143";
 //    private static String HIT_MEETUP = "https://api.meetup.com/topics?search=";
 
-    private static String CLIENT_ID = "7qCtCchb7Otc0_bGSIkucQ_2";
+    private static String CLIENT_ID = "7qCtCchb7Otc0_bGSIkucQ";
     private static String CLIENT_SECRET =
             "PFH4bBwEqBaiuRTkrVzqFvelfwI1gRqEHzxp5orCsl0ke0ORcN4lmOLpwPP9ept5";
     private static String SAMPLE_REQUEST = "https://api.yelp.com/v2/search?term=yelp&location=San+Francisco&oauth_consumer_key=MZnv7kUU0YsBuUt3teqk9JwqETiAr7rrx-5NTYxUVQ8MnpwOSji5ohfFjB3D9tz4zsTNbCfjOp_lRbu_7cFdo1eQKF1qTXzT3mFmtau7NJ5e__TFdn9MumvPaHgEWnYx";
@@ -60,6 +60,7 @@ public class ApiConfig {
         parms.put("latitude", "40.581140");
         parms.put("longitude", "-111.914184");
         Call<SearchResponse> call = yelpFusionApi.getBusinessSearch(parms);
+        //Log.e("Search String", toString(call));
         SearchResponse response = call.execute().body();
         response.getBusinesses();
     }

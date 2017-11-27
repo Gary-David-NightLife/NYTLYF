@@ -3,9 +3,11 @@
     package="com.vacuity.myapplication">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name=".app.App"
         android:allowBackup="true"
@@ -14,35 +16,96 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.SplashActivity"
-            android:theme="@style/SplashTheme">
-            <!--android:name=".SplashActivity"-->
-            <!--android:theme="@style/SplashTheme">-->
+        <!--<activity android:name=".activity.MapsActivity">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
+
+
+        <activity android:name=".uiextras.TabActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+
+
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
 
         </activity>
-        <activity android:name=".activity.SingleMeetUpActivity">
+         <activity android:name=".tmpappfolder.YelpListActivity">
+         <intent-filter>
+         <action android:name="android.intent.action.MAIN"/>
 
-        </activity>
+
+         <category android:name="android.intent.category.LAUNCHER"/>
+         </intent-filter>
+
+         </activity>
+
+         <activity android:name=".tmpappfolder.YelpPagerActivity">
+         </activity>
+
+
+         <activity android:name=".activity.SplashActivity"
+         android:theme="@style/SplashTheme">
+         <!--android:name=".SplashActivity"-->
+         <!--android:theme="@style/SplashTheme">-->
+         <intent-filter>
+         <action android:name="android.intent.action.MAIN" />
+         <category android:name="android.intent.category.LAUNCHER" />
+         </intent-filter>
+
+
+         </activity>
+         <activity android:name=".activity.SingleMeetUpActivity">
+         </activity>
+
+         <!--<activity-->
+         <!--android:name="com.vacuity.myapplication.MainActivity"-->
+         <!--android:theme="@style/AppTheme.NoActionBar">-->
+
+         <!--<intent-filter>-->
+         <!--<action android:name="android.intent.action.MAIN" />-->
+
+
+         <!--<category android:name="android.intent.category.LAUNCHER" />-->
+         <!--</intent-filter>-->
+         <!--</activity>-->
         <activity
-            android:name="com.vacuity.myapplication.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name="com.vacuity.myapplication.MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+         <meta-data
+         android:name="com.google.android.geo.API_KEY"
+         android:value="AIzaSyBcHyDY4GmKBV8ArZwuak6TMoqqKGIkp2U"/>
+         <!--<activity-->
+         <!--android:name=".activity.MapsActivity"-->
+         <!--android:label="@string/map">-->
+         <!--</activity>-->
+
+
         <!--<meta-data-->
             <!--android:name="com.google.android.geo.API_KEY"-->
-            <!--android:value="AIzaSyBcHyDY4GmKBV8ArZwuak6TMoqqKGIkp2U"/>-->
+            <!--android:value="@string/google_maps_key" />-->
+
         <!--<activity-->
-        <!--android:name=".activity.MapsActivity"-->
-        <!--android:label="@string/map">-->
-    <!--</activity>-->
+            <!--android:name=".tmpappfolMapActivityvity"-->
+            <!--android:label="@string/title_activity_maps">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
     </application>
 
 </manifest>

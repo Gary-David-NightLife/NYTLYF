@@ -3,6 +3,8 @@ package com.vacuity.myapplication.connection;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.vacuity.myapplication.adapter.RecyclerViewAdapter;
+import com.vacuity.myapplication.model.MeetUpLab;
 import com.vacuity.myapplication.models.AccessToken;
 import com.vacuity.myapplication.models.Business;
 import com.vacuity.myapplication.models.SearchResponse;
@@ -50,6 +52,8 @@ public class YelpAPITest extends AsyncTask {
 
     @Override
     protected void onPostExecute(Object o) {
+        MeetUpLab mLab = new MeetUpLab();
+        //mLab.setYelpList(o);
         super.onPostExecute(o);
     }
 
@@ -74,4 +78,77 @@ public class YelpAPITest extends AsyncTask {
         }
         return response.getBusinesses();
     }
+    public static class searchYelp extends AsyncTask<String, Integer, ArrayList<Business>>{
+
+        YelpFusionApiFactory yelpFusionApiFactory;
+        YelpFusionApi yelpFusionApi;
+        ArrayList<Business> myResults;
+
+        public searchYelp()throws IOException {
+            yelpFusionApiFactory = new YelpFusionApiFactory();
+            //yelpFusionApi = yelpFusionApiFactory.createAPI("7qCtCchb7Otc0_bGSIkucQ", "PFH4bBwEqBaiuRTkrVzqFvelfwI1gRqEHzxp5orCsl0ke0ORcN4lmOLpwPP9ept5");
+
+//        accessToken = yelpFusionApiFactory.getAccessToken(appID, appSecret);
+//        assertNotNull(accessToken);
+        }
+
+
+
+
+
+        @Override
+        protected ArrayList<Business> doInBackground(String... strings){
+            try{
+                yelpFusionApi = yelpFusionApiFactory.createAPI("7qCtCchb7Otc0_bGSIkucQ", "PFH4bBwEqBaiuRTkrVzqFvelfwI1gRqEHzxp5orCsl0ke0ORcN4lmOLpwPP9ept5");
+                myResults = new ArrayList<>();
+                myResults = buissnessSearchTest();
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+            return myResults;
+        }
+        public ArrayList<Business> buissnessSearchTest()throws IOException{
+//            yelpFusionApiFactory = new YelpFusionApiFactory();
+//            yelpFusionApi = yelpFusionApiFactory.createAPI("7qCtCchb7Otc0_bGSIkucQ",
+//                    "PFH4bBwEqBaiuRTkrVzqFvelfwI1gRqEHzxp5orCsl0ke0ORcN4lmOLpwPP9ept5");
+            Map<String, String> parms = new HashMap<>();
+            parms.put("term", "Restaurant");
+            parms.put("location", "sf");
+            //parms.put("latitude", "40.581140");
+            //parms.put("longitude", "-111.914184");
+            Call<SearchResponse> call = yelpFusionApi.getBusinessSearch(parms);
+            SearchResponse response = call.execute().body();
+            assertNotNull(response);
+            Log.e("Response", String.valueOf(response.getBusinesses().size()));
+            for(int i =0; i<response.getBusinesses().size(); i++){
+                Log.e("Response", String.valueOf(response.getBusinesses().get(i).getName()));
+            }
+            return response.getBusinesses();
+        }
+
+        @Override
+        protected void onPreExecute() {
+//            try {
+////            yelpFusionApiFactory = new YelpFusionApiFactory();
+////            yelpFusionApi = yelpFusionApiFactory.createAPI("7qCtCchb7Otc0_bGSIkucQ",
+////                    "PFH4bBwEqBaiuRTkrVzqFvelfwI1gRqEHzxp5orCsl0ke0ORcN4lmOLpwPP9ept5");
+//
+//            }catch (IOException e){
+//                e.printStackTrace();
+//            }
+//            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Business> businesses) {
+            RecyclerViewAdapter.receiveYelp(businesses);
+            Log.e("Status", "Process Finished");
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+        }
+    }
 }
+
