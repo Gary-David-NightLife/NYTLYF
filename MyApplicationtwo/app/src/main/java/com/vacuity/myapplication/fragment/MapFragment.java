@@ -86,7 +86,8 @@ public class MapFragment extends SupportMapFragment
         }else{
             paramters.put("location", "94132");
         }
-        paramters.put("categories", "bar");
+        paramters.put("categories", "danceclubs");
+        paramters.put("categories", "nightlife");
         try{
             SearchTask searchTask = new SearchTask();
             searchTask.execute(paramters);
@@ -322,7 +323,8 @@ public class MapFragment extends SupportMapFragment
         }
         LatLng sydney = new LatLng(37.723894, -122.479274);
 
-        mMap.addMarker(new MarkerOptions().position(sydney).title("SF State"));
+        mMap.addMarker(new MarkerOptions().position(sydney).title("SF State").icon(BitmapDescriptorFactory
+        .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
         if(mCurrentLocation!=null){
             LatLng myPoint = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());

@@ -123,7 +123,8 @@ public class YelpListFragment extends Fragment
     private void defaultSearch(){
         Map<String, String> paramters = new HashMap<>();
         paramters.put("location", "94132");
-        paramters.put("categories", "bar");
+        paramters.put("categories", "danceclubs");
+        paramters.put("categories", "nightlife");
         try{
             //MapFragment.SearchTask searchTask = new MapFragment.SearchTask();
             YelpSearchTask searchTask = new YelpSearchTask();
