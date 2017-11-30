@@ -31,13 +31,13 @@
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="325dp"-->
             <!--tools:context="com.example.andrewpat24.eventbrowser.activity.MapsActivity"/>-->
-        <Button
-            android:id="@+id/directionsButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Get Directions"
-            android:onClick="getDirections"
-            />
+        <!--<Button-->
+            <!--android:id="@+id/directionsButton"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Get Directions"-->
+            <!--android:onClick="getDirections"-->
+            <!--/>-->
 
 
     </LinearLayout>

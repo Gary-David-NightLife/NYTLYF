@@ -9,57 +9,55 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.vacuity.myapplication.R;
-import com.vacuity.myapplication.adapter.RecyclerViewAdapter;
 import com.vacuity.myapplication.app.App;
-import com.vacuity.myapplication.model.MeetUp;
+import com.vacuity.myapplication.models.model.YelpLab;
+import com.vacuity.myapplication.models.Business;
 import com.vacuity.myapplication.volley.VolleySingleton;
 
-import java.util.UUID;
-
 /**
- * Created by Gary Straub on 7/23/2017.
+ * Created by Gary Straub on 11/13/2017.
  */
 
-public class MeetUpFragment extends Fragment{
-    private MeetUp thisMeetUp;
+public class YelpFragment extends Fragment{
+    private Business mBusiness;
     private TextView mTitle;
     private TextView Description;
     private NetworkImageView mImage;
+    private Button mButton;
 
-    private static final String ARG_STORY_ID = "Card ID";
 
-    public static MeetUpFragment newInstance(UUID storyID){
+
+    private static final String ARG_YELP_ID = "yelp id";
+
+    public static YelpFragment newInstance(String yelpID) {
         Bundle args = new Bundle();
-        args.putSerializable(ARG_STORY_ID, storyID);
+        args.putSerializable(ARG_YELP_ID, yelpID);
 
-        MeetUpFragment fragment = new MeetUpFragment();
+        YelpFragment fragment = new YelpFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //mStory = new Story();
-//        UUID storyId = (UUID) getActivity().getIntent().getSerializableExtra(MainActivity.SOME_STRING);
-        UUID  storyId = (UUID) getArguments().getSerializable(ARG_STORY_ID);
-        thisMeetUp = RecyclerViewAdapter.get(storyId);
+        String yelpID = (String) getArguments().getSerializable(ARG_YELP_ID);
+        mBusiness = YelpLab.get(getActivity()).getBusiness(yelpID);
     }
+    public View onCreateView(LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
 
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_meetup, container, false);
 
-
-
-
         mTitle = (TextView) v.findViewById(R.id.frag_title);
-        String s = Html.fromHtml(thisMeetUp.getmTitle()).toString();
+        String s = Html.fromHtml(mBusiness.getName()).toString();
         mTitle.setText(s);
         mTitle.addTextChangedListener(new TextWatcher() {
             @Override
@@ -79,7 +77,7 @@ public class MeetUpFragment extends Fragment{
             }
         });
         Description = (TextView) v.findViewById(R.id.frag_desc);
-        String d = Html.fromHtml(thisMeetUp.getmDescription()).toString();
+        String d = Html.fromHtml(mBusiness.getDisplayPhone()).toString();
         Description.setText(d);
         Description.addTextChangedListener(new TextWatcher() {
             @Override
@@ -92,7 +90,6 @@ public class MeetUpFragment extends Fragment{
 
 
             }
-
             @Override
             public void afterTextChanged(Editable s) {
 
@@ -100,10 +97,8 @@ public class MeetUpFragment extends Fragment{
         });
         mImage = (NetworkImageView) v.findViewById(R.id.frag_img);
         ImageLoader imageLoader = VolleySingleton.getInstance(App.getContext()).getImageLoader();
-        mImage.setImageUrl(thisMeetUp.getmImg(),imageLoader);
+        mImage.setImageUrl(mBusiness.getImageUrl(),imageLoader);
         return v;
     }
-
-
 
 }

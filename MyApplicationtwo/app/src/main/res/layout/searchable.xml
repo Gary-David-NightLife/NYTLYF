@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<searchable
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:label=""
+    android:hint="Search friend"
+    android:layout_height="10px"
+    android:layout_width="match_parent">
+</searchable>

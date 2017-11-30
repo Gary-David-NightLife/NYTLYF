@@ -24,6 +24,7 @@ public class ApiConfig {
 
     YelpFusionApiFactory yelpFusionApiFactory;
     YelpFusionApi yelpFusionApi;
+    private int myInt = 0;
 
 //    private static int PAGE_SIZE = 20;
 //    private static String KEY_MEETUP = "39565db356f354976116a2d1d436143";
@@ -59,6 +60,7 @@ public class ApiConfig {
         parms.put("latitude", "40.581140");
         parms.put("longitude", "-111.914184");
         Call<SearchResponse> call = yelpFusionApi.getBusinessSearch(parms);
+        //Log.e("Search String", toString(call));
         SearchResponse response = call.execute().body();
         response.getBusinesses();
     }
