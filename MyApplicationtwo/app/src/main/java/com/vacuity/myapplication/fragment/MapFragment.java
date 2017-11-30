@@ -116,7 +116,7 @@ public class MapFragment extends SupportMapFragment
 //                LocationManager.GPS_PROVIDER, 5000, 10, new MyLocationListener());
 
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(false);
         sYelpLab = YelpLab.get(getActivity());
 
         //mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -309,18 +309,34 @@ public class MapFragment extends SupportMapFragment
         }
         getList();
         ArrayList<LatLng> pList = new ArrayList<>();
+        float dist = 99999999;
+        Business tmpClose;
+        int pos = 0;
+        float distance = 0;
         if(currentLocations != null){
             for(int i = 0; i< currentLocations.size(); i++) {
                 LatLng tmp = new LatLng(currentLocations.get(i).getCoordinates().getLatitude(),
                         currentLocations.get(i).getCoordinates().getLongitude());
                 pList.add(tmp);
+                Location locationB = new Location("Point");
+                locationB.setLatitude(currentLocations.get(i).getCoordinates().getLatitude());
+                locationB.setLongitude(currentLocations.get(i).getCoordinates().getLongitude());
+                if(mCurrentLocation!=null){
+                    distance = mCurrentLocation.distanceTo(locationB);
+                    if(dist > distance){
+                        dist = distance;
+                        pos = i;
+                    }
+                }
+
 //                LatLng myPoint = new LatLng(currentLocations.get(i).getCoordinates().getLatitude(),
 //                        currentLocations.get(i).getCoordinates().getLatitude());
                 //Log.e("MarkerGPS", String.valueOf(currentLocations.get(i).getCoordinates().getLatitude()));
                 mMap.addMarker(new MarkerOptions().position(pList.get(i)).title(currentLocations.get(i).getName()));
             }
-
         }
+        Log.e("Closest Dist", Float.toString(dist));
+
         LatLng sydney = new LatLng(37.723894, -122.479274);
 
         mMap.addMarker(new MarkerOptions().position(sydney).title("SF State").icon(BitmapDescriptorFactory

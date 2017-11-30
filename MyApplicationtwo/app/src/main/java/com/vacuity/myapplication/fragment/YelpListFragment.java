@@ -85,8 +85,8 @@ public class YelpListFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
-        setHasOptionsMenu(true);
+        View view = inflater.inflate(R.layout.yelp_list_fragment, container, false);
+        setHasOptionsMenu(false);
         mYelpRecyclerView = (RecyclerView) view
                 .findViewById(R.id.crime_recycler_view);
         mYelpRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

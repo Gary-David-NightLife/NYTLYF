@@ -27,7 +27,7 @@ public class historyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
+        View view = inflater.inflate(R.layout.yelp_list_fragment, container, false);
         setHasOptionsMenu(true);
         mNYTLYFRecyclerView = (RecyclerView) view
                 .findViewById(R.id.crime_recycler_view);

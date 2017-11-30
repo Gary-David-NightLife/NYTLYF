@@ -54,7 +54,7 @@ public class YelpFragment extends Fragment{
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_meetup, container, false);
+        View v = inflater.inflate(R.layout.detailed_view, container, false);
 
         mTitle = (TextView) v.findViewById(R.id.frag_title);
         String s = Html.fromHtml(mBusiness.getName()).toString();
