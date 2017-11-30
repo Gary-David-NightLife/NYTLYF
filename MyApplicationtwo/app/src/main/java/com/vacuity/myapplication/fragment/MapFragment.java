@@ -31,10 +31,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.vacuity.myapplication.R;
 import com.vacuity.myapplication.connection.YelpFusionApi;
 import com.vacuity.myapplication.connection.YelpFusionApiFactory;
-import com.vacuity.myapplication.models.model.YelpLab;
 import com.vacuity.myapplication.models.Business;
 import com.vacuity.myapplication.models.SearchResponse;
-
+import com.vacuity.myapplication.models.model.YelpLab;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -96,6 +95,8 @@ public class MapFragment extends SupportMapFragment
         }
     }
     public void setResults(ArrayList<Business> r){
+        YelpLab tYelpLab = YelpLab.get(getActivity());
+        tYelpLab.submitResults(r);
         currentLocations = r;
         for(int i=0; i<currentLocations.size();i++){
             //Log.e("Results Print", myRes.get(i).getName());
@@ -104,7 +105,9 @@ public class MapFragment extends SupportMapFragment
     }
 
     private void getList(){
-        currentLocations = sYelpLab.getBusiness();
+        YelpLab tYelpLab = YelpLab.get(getActivity());
+        currentLocations = tYelpLab.getBusiness();
+
         if(currentLocations == null){
             defaultSearch();
         }
@@ -116,7 +119,7 @@ public class MapFragment extends SupportMapFragment
 //                LocationManager.GPS_PROVIDER, 5000, 10, new MyLocationListener());
 
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(false);
+        setHasOptionsMenu(true);
         sYelpLab = YelpLab.get(getActivity());
 
         //mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -146,11 +149,19 @@ public class MapFragment extends SupportMapFragment
         });
     }
 
-
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+//            Toast.makeText(getActivity(), "Map: On User Visible", Toast.LENGTH_SHORT).show();
+            updateUI();
+        }
+    }
 
     @Override
     public void onStart() {
         super.onStart();
+
 
         getActivity().invalidateOptionsMenu();
 

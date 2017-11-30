@@ -1,81 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<RelativeLayout android:id="@+id/main_layout"-->
-    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--android:orientation="vertical"-->
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/main_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".userinterface.TabActivity">
+<RelativeLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/mtoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="?attr/colorPrimary"
+
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mtoolbar"
+        android:background="?attr/colorPrimary"
+
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/tab_layout"/>
+</RelativeLayout>
+
+
+    <android.support.design.widget.NavigationView
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        app:menu="@menu/drawer_menu"
+        app:headerLayout="@layout/navigation_header"
+        android:layout_gravity="start">
+
+    </android.support.design.widget.NavigationView>
+
+</android.support.v4.widget.DrawerLayout>
+<!--<RelativeLayout-->
+<!--android:id="@+id/main_layout"-->
+<!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--xmlns:tools="http://schemas.android.com/tools"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="match_parent"-->
+<!--tools:context=".userinterface.TabActivity">-->
+
+<!--<android.support.v7.widget.Toolbar-->
+    <!--android:id="@+id/mtoolbar"-->
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="wrap_content"-->
-    <!--tools:context=".uiextras.TabActivity"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto">-->
-    <!--<android.support.v7.widget.Toolbar-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:id="@+id/mtoolbar" />-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:background="?attr/colorPrimary"-->
+    <!--android:elevation="6dp"-->
+    <!--android:minHeight="?attr/actionBarSize"-->
+    <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
+    <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>-->
 
+<!--<android.support.design.widget.TabLayout-->
+    <!--android:id="@+id/tab_layout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@+id/mtoolbar"-->
+    <!--android:background="?attr/colorPrimary"-->
+    <!--android:elevation="6dp"-->
+    <!--android:minHeight="?attr/actionBarSize"-->
+    <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>-->
 
-        <!--&lt;!&ndash;<android.support.v7.widget.SearchView&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_height="0dp"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_weight="4"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:id="@+id/action_search">&ndash;&gt;-->
+<!--<android.support.v4.view.ViewPager-->
+    <!--android:id="@+id/pager"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="fill_parent"-->
+    <!--android:layout_below="@id/tab_layout"/>-->
 
-        <!--&lt;!&ndash;</android.support.v7.widget.SearchView>&ndash;&gt;-->
-
-
-        <!--<android.support.design.widget.TabLayout-->
-            <!--android:id="@+id/tab_layout"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_weight="4"-->
-            <!--android:layout_height="0dp"-->
-            <!--android:layout_below="@+id/action_search"-->
-            <!--android:background="?attr/colorPrimary"-->
-            <!--android:elevation="6dp"-->
-            <!--android:minHeight="?attr/actionBarSize"-->
-            <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>-->
-
-
-
-    <!--<android.support.v4.view.ViewPager-->
-        <!--android:id="@+id/pager"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@id/tab_layout"/>-->
 <!--</RelativeLayout>-->
-<RelativeLayout
-android:id="@+id/main_layout"
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".userinterface.TabActivity">
-
-<android.support.v7.widget.Toolbar
-    android:id="@+id/mtoolbar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:background="?attr/colorPrimary"
-    android:elevation="6dp"
-    android:minHeight="?attr/actionBarSize"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
-
-<android.support.design.widget.TabLayout
-    android:id="@+id/tab_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/mtoolbar"
-    android:background="?attr/colorPrimary"
-    android:elevation="6dp"
-    android:minHeight="?attr/actionBarSize"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-<android.support.v4.view.ViewPager
-    android:id="@+id/pager"
-    android:layout_width="match_parent"
-    android:layout_height="fill_parent"
-    android:layout_below="@id/tab_layout"/>
-
-</RelativeLayout>

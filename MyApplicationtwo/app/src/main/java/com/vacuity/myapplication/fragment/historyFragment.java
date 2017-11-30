@@ -28,7 +28,7 @@ public class historyFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.yelp_list_fragment, container, false);
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(false);
         mNYTLYFRecyclerView = (RecyclerView) view
                 .findViewById(R.id.crime_recycler_view);
         mNYTLYFRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -38,17 +38,28 @@ public class historyFragment extends Fragment {
         return view;
     }
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            //Toast.makeText(getActivity(), "Map: On User Visible", Toast.LENGTH_SHORT).show();
+            //updateUI();
+        }
+    }
+    @Override
     public void onResume() {
         super.onResume();
         updateUI();
     }
     private void updateUI() {
         nytlyfLab nLab = nytlyfLab.get(getActivity());
-        List<NYTLYFhistory> crimes = nLab.getHistory();
+        List<NYTLYFhistory> hist = nLab.getHistory();
 
         if (mAdapter == null) {
-            mAdapter = new historyAdapter(crimes);
-            mNYTLYFRecyclerView.setAdapter(mAdapter);
+            mAdapter = new historyAdapter(hist);
+
+                mNYTLYFRecyclerView.setAdapter(mAdapter);
+
+
         } else {
             mAdapter.notifyDataSetChanged();
         }

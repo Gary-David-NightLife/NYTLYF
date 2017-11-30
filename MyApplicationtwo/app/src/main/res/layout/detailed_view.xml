@@ -6,10 +6,61 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.android.volley.toolbox.NetworkImageView
-            android:id="@+id/frag_img"
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/frag_img"
+                android:layout_width="0dp"
+                android:layout_weight="6"
+                android:layout_height="200dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/detail_here"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="5"
+                    android:text="@string/was_here"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="5"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/detail_dislike"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="5"
+                        android:background="@color/dislike_red"
+                        android:drawableTop="@mipmap/ic_thumb_down_black_48dp" />
+
+                    <Button
+                        android:id="@+id/detail_like"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="5"
+                        android:background="@color/like_green"
+                        android:drawableTop="@mipmap/ic_thumb_up_black_48dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
         <TextView
             android:id="@+id/frag_title"
             android:layout_width="match_parent"

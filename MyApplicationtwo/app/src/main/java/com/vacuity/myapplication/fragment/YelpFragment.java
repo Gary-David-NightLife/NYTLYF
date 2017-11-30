@@ -11,13 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.vacuity.myapplication.R;
 import com.vacuity.myapplication.app.App;
-import com.vacuity.myapplication.models.model.YelpLab;
 import com.vacuity.myapplication.models.Business;
+import com.vacuity.myapplication.models.model.YelpLab;
+import com.vacuity.myapplication.models.model.nytlyfLab;
 import com.vacuity.myapplication.volley.VolleySingleton;
 
 /**
@@ -29,7 +31,9 @@ public class YelpFragment extends Fragment{
     private TextView mTitle;
     private TextView Description;
     private NetworkImageView mImage;
-    private Button mButton;
+    private Button mButtonHere;
+    private Button mButtonLike;
+    private Button mButtonDislike;
 
 
 
@@ -98,6 +102,37 @@ public class YelpFragment extends Fragment{
         mImage = (NetworkImageView) v.findViewById(R.id.frag_img);
         ImageLoader imageLoader = VolleySingleton.getInstance(App.getContext()).getImageLoader();
         mImage.setImageUrl(mBusiness.getImageUrl(),imageLoader);
+
+        mButtonHere = (Button) v.findViewById(R.id.detail_here);
+        mButtonHere.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Button Here", Toast.LENGTH_SHORT).show();
+                nytlyfLab sHist = nytlyfLab.get(getActivity());
+                sHist.add(mBusiness);
+
+
+            }
+        });
+
+        mButtonDislike = (Button) v.findViewById(R.id.detail_dislike);
+        mButtonDislike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Button Dislike", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mButtonLike = (Button) v.findViewById(R.id.detail_like);
+        mButtonLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Button Like", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
         return v;
     }
 

@@ -16,38 +16,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--<activity android:name=".activity.MapsActivity">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
-
-
-        <!--<activity android:name=".activity.SplashActivity">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
-
-
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
-
-        <!--</activity>-->
-         <!--<activity android:name=".tmpappfolder.YelpListActivity">-->
-         <!--<intent-filter>-->
-         <!--<action android:name="android.intent.action.MAIN"/>-->
-
-
-         <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-         <!--</intent-filter>-->
-
-         <!--</activity>-->
-
-         <activity android:name=".activity.YelpPagerActivity">
-         </activity>
-        <activity android:name=".userinterface.TabActivity">
-        </activity>
 
 
          <activity android:name=".activity.SplashActivity"
@@ -58,9 +26,11 @@
          <action android:name="android.intent.action.MAIN" />
          <category android:name="android.intent.category.LAUNCHER" />
          </intent-filter>
-
-
          </activity>
+
+        <activity android:name=".userinterface.TabActivity">
+
+        </activity>
 
         <!--<activity-->
          <!--android:name="com.vacuity.myapplication.MainActivity"-->
