@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.vacuity.myapplication.fragment.CalendarFragment;
 import com.vacuity.myapplication.fragment.MapFragment;
 import com.vacuity.myapplication.fragment.YelpListFragment;
 import com.vacuity.myapplication.fragment.historyFragment;
@@ -26,17 +27,20 @@ public class TabAdapter extends FragmentStatePagerAdapter {
 //                TabFragmentOne tab1 = new TabFragmentOne();
 //                return tab1;
             case 0:
-                YelpListFragment tab1 = new YelpListFragment();
+                MapFragment tab1 = new MapFragment();
                 return tab1;
 //            case 1:
 //                TabFragmentTwo tab2 = new TabFragmentTwo();
 //                return tab2;
             case 1:
-                MapFragment tab2 = new MapFragment();
+                YelpListFragment tab2 = new YelpListFragment();
                 return tab2;
             case 2:
                 historyFragment tab3 = new historyFragment();
                 return tab3;
+            case 3:
+                CalendarFragment tab4 = new CalendarFragment();
+                return tab4;
 
             default:
                 return null;

@@ -31,10 +31,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.vacuity.myapplication.R;
 import com.vacuity.myapplication.connection.YelpFusionApi;
 import com.vacuity.myapplication.connection.YelpFusionApiFactory;
-import com.vacuity.myapplication.models.model.YelpLab;
 import com.vacuity.myapplication.models.Business;
 import com.vacuity.myapplication.models.SearchResponse;
-
+import com.vacuity.myapplication.models.model.YelpLab;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -96,15 +95,19 @@ public class MapFragment extends SupportMapFragment
         }
     }
     public void setResults(ArrayList<Business> r){
+        YelpLab tYelpLab = YelpLab.get(getActivity());
+        tYelpLab.submitResults(r);
         currentLocations = r;
-        for(int i=0; i<currentLocations.size();i++){
-            //Log.e("Results Print", myRes.get(i).getName());
-        }
+//        for(int i=0; i<currentLocations.size();i++){
+//            //Log.e("Results Print", myRes.get(i).getName());
+//        }
         updateUI();
     }
 
     private void getList(){
-        currentLocations = sYelpLab.getBusiness();
+        YelpLab tYelpLab = YelpLab.get(getActivity());
+        currentLocations = tYelpLab.getBusiness();
+
         if(currentLocations == null){
             defaultSearch();
         }
@@ -138,19 +141,30 @@ public class MapFragment extends SupportMapFragment
                 .build();
 
         getMapAsync(new OnMapReadyCallback() {
+
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 mMap = googleMap;
                 updateUI();
+
             }
         });
+
     }
 
-
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+//            Toast.makeText(getActivity(), "Map: On User Visible", Toast.LENGTH_SHORT).show();
+            updateUI();
+        }
+    }
 
     @Override
     public void onStart() {
         super.onStart();
+
 
         getActivity().invalidateOptionsMenu();
 
@@ -160,7 +174,6 @@ public class MapFragment extends SupportMapFragment
     @Override
     public void onStop() {
         super.onStop();
-
         mClient.disconnect();
     }
 
@@ -183,19 +196,6 @@ public class MapFragment extends SupportMapFragment
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.action_locate:
-//                if (hasLocationPermission()) {
-//                    renewLocation();
-//                    updateUI();
-//                } else {
-//                    requestPermissions(LOCATION_PERMISSIONS,
-//                            REQUEST_LOCATION_PERMISSIONS);
-//                }
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
         switch (item.getItemId()) {
             case R.id.action_search:
                 Log.e("Menu", "action Search");
@@ -241,7 +241,22 @@ public class MapFragment extends SupportMapFragment
         for(String ss : queryTerms){
             paramters.put("term", ss);
         }
-        paramters.put("location", "94132");
+        if(searchBar){
+            paramters.put("categories", "bars");
+        }
+        if(searchClub){
+            paramters.put("categories", "danceclubs");
+            paramters.put("categories", "nightlife");
+        }
+        if(searchRestaurant){
+            paramters.put("categories", "restaurants");
+        }
+        if(mCurrentLocation != null){
+            paramters.put("latitude", Double.toString(mCurrentLocation.getLatitude()));
+            paramters.put("longitude", Double.toString(mCurrentLocation.getLongitude()));
+        } else {
+            paramters.put("location", "94132");
+        }
 
         try{
             //MapFragment.SearchTask searchTask = new MapFragment.SearchTask();
@@ -307,20 +322,38 @@ public class MapFragment extends SupportMapFragment
         if (mMap == null ) {
             return;
         }
+        mMap.clear();
+        Log.e("Hello", "World");
         getList();
         ArrayList<LatLng> pList = new ArrayList<>();
+        float dist = 99999999;
+        Business tmpClose;
+        int pos = 0;
+        float distance = 0;
         if(currentLocations != null){
             for(int i = 0; i< currentLocations.size(); i++) {
                 LatLng tmp = new LatLng(currentLocations.get(i).getCoordinates().getLatitude(),
                         currentLocations.get(i).getCoordinates().getLongitude());
                 pList.add(tmp);
+                Location locationB = new Location("Point");
+                locationB.setLatitude(currentLocations.get(i).getCoordinates().getLatitude());
+                locationB.setLongitude(currentLocations.get(i).getCoordinates().getLongitude());
+                if(mCurrentLocation!=null){
+                    distance = mCurrentLocation.distanceTo(locationB);
+                    if(dist > distance){
+                        dist = distance;
+                        pos = i;
+                    }
+                }
+
 //                LatLng myPoint = new LatLng(currentLocations.get(i).getCoordinates().getLatitude(),
 //                        currentLocations.get(i).getCoordinates().getLatitude());
                 //Log.e("MarkerGPS", String.valueOf(currentLocations.get(i).getCoordinates().getLatitude()));
                 mMap.addMarker(new MarkerOptions().position(pList.get(i)).title(currentLocations.get(i).getName()));
             }
-
         }
+        Log.e("Closest Dist", Float.toString(dist));
+
         LatLng sydney = new LatLng(37.723894, -122.479274);
 
         mMap.addMarker(new MarkerOptions().position(sydney).title("SF State").icon(BitmapDescriptorFactory
@@ -341,7 +374,10 @@ public class MapFragment extends SupportMapFragment
                 .build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
+
     }
+
+
 
 
     private class SearchTask extends AsyncTask<Map<String, String>, Integer, ArrayList<Business>> {

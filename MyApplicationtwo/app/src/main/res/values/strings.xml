@@ -1,11 +1,24 @@
 <resources>
     <string name="app_name">My Application</string>
+
     <string name="map">Map</string>
+
     <string name="menu_bar">Bars</string>
     <string name="menu_club">Clubs</string>
     <string name="menu_restaurant">Restaurants</string>
+    <string name="venue">venue</string>
     <string name="search">Find an image near you</string>
     <string name="google_maps_key">AIzaSyCKt2XKFq0TQqXR31j1ueFCYjYLvJ5—Do</string>
     <string name="title_activity_maps">Map</string>
+
+    <string name="fav">Add To Favorites</string>
+    <string name="was_here">I Was Here</string>
+    <string name="liked">Liked</string>
+    <string name="like">Like</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 
 </resources>

@@ -20,13 +20,13 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.vacuity.myapplication.R;
+import com.vacuity.myapplication.activity.YelpPagerActivity;
 import com.vacuity.myapplication.app.App;
 import com.vacuity.myapplication.connection.YelpFusionApi;
 import com.vacuity.myapplication.connection.YelpFusionApiFactory;
-import com.vacuity.myapplication.models.model.YelpLab;
 import com.vacuity.myapplication.models.Business;
 import com.vacuity.myapplication.models.SearchResponse;
-import com.vacuity.myapplication.activity.YelpPagerActivity;
+import com.vacuity.myapplication.models.model.YelpLab;
 import com.vacuity.myapplication.volley.VolleySingleton;
 
 import java.io.IOException;
@@ -53,45 +53,61 @@ public class YelpListFragment extends Fragment
     private Boolean searchClub;
     private Boolean searchRestaurant;
     private YelpLab sYelpLab;
-    private ArrayList<Business> myRes;
+    private ArrayList<Business> currentLocations;
     private Menu mMenu;
 
-
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        myRes = new ArrayList<>();
-        sYelpLab = YelpLab.get(getActivity());
-        getList();
-    }
-    public void setResults(ArrayList<Business> r){
-        myRes = r;
-        sYelpLab.submitResults(r);
-        for(int i=0; i<myRes.size();i++){
-            Log.e("Results Print", myRes.get(i).getName());
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            //Toast.makeText(getActivity(), "Map: On User Visible", Toast.LENGTH_SHORT).show();
+            getList();
+            updateUI();
         }
+    }
+
+    public void setResults(ArrayList<Business> r){
+        YelpLab tYelpLab = YelpLab.get(getActivity());
+        tYelpLab.submitResults(r);
+//        if(currentLocations == null){
+//            currentLocations = new ArrayList<>();
+//        }
+        currentLocations = r;
+//        for(int i = 0; i< currentLocations.size(); i++){
+//            Log.e("Results Print", currentLocations.get(i).getName());
+//        }
         updateUI();
     }
 
     private void getList(){
-        myRes = sYelpLab.getBusiness();
-        if(myRes == null){
+        YelpLab tYelpLab = YelpLab.get(getActivity());
+        currentLocations = tYelpLab.getBusiness();
+
+        //currentLocations = sYelpLab.getBusiness();
+        if(currentLocations == null){
             Log.e("Testing", "Default Search");
             defaultSearch();
         }
     }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        currentLocations = new ArrayList<Business>();
+        sYelpLab = YelpLab.get(getActivity());
+        getList();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
+        View view = inflater.inflate(R.layout.yelp_list_fragment, container, false);
         setHasOptionsMenu(true);
         mYelpRecyclerView = (RecyclerView) view
                 .findViewById(R.id.crime_recycler_view);
         mYelpRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         updateUI();
-
 
         return view;
     }
@@ -126,7 +142,6 @@ public class YelpListFragment extends Fragment
         paramters.put("categories", "danceclubs");
         paramters.put("categories", "nightlife");
         try{
-            //MapFragment.SearchTask searchTask = new MapFragment.SearchTask();
             YelpSearchTask searchTask = new YelpSearchTask();
             searchTask.execute(paramters);
         }catch (IOException e){
@@ -225,23 +240,23 @@ public class YelpListFragment extends Fragment
 
 
     private void updateUI() {
-        if(myRes!=null) {
+        if(currentLocations !=null) {
             if (mAdapter == null) {
-                mAdapter = new YelpAdapter(myRes);
-                if (myRes != null) {
-                    mAdapter.updateDataset(myRes);
+                mAdapter = new YelpAdapter(currentLocations);
+                if (currentLocations != null) {
+                    mAdapter.updateDataset(currentLocations);
                 }
                 mYelpRecyclerView.setAdapter(mAdapter);
             } else {
-                if (myRes != null) {
-                    mAdapter.updateDataset(myRes);
+                if (currentLocations != null) {
+                    mAdapter.updateDataset(currentLocations);
                 }
 
                 mAdapter.notifyDataSetChanged();
             }
 
-            if (myRes != null) {
-                mAdapter.updateDataset(myRes);
+            if (currentLocations != null) {
+                mAdapter.updateDataset(currentLocations);
             }
         }
         //mYelpRecyclerView.setAdapter(mAdapter);
