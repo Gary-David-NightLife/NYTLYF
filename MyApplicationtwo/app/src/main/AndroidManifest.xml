@@ -18,8 +18,10 @@
         android:theme="@style/AppTheme">
 
 
+
          <activity android:name=".activity.SplashActivity"
          android:theme="@style/SplashTheme">
+
          <!--android:name=".SplashActivity"-->
          <!--android:theme="@style/SplashTheme">-->
          <intent-filter>
@@ -43,7 +45,9 @@
          <!--<category android:name="android.intent.category.LAUNCHER" />-->
          <!--</intent-filter>-->
          <!--</activity>-->
-
+        <activity
+            android:name=".activity.YelpPagerActivity">
+        </activity>
         <meta-data
          android:name="com.google.android.geo.API_KEY"
          android:value="AIzaSyBcHyDY4GmKBV8ArZwuak6TMoqqKGIkp2U"/>

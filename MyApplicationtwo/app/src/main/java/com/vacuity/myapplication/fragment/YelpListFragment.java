@@ -69,10 +69,13 @@ public class YelpListFragment extends Fragment
     public void setResults(ArrayList<Business> r){
         YelpLab tYelpLab = YelpLab.get(getActivity());
         tYelpLab.submitResults(r);
+//        if(currentLocations == null){
+//            currentLocations = new ArrayList<>();
+//        }
         currentLocations = r;
-        for(int i = 0; i< currentLocations.size(); i++){
-            Log.e("Results Print", currentLocations.get(i).getName());
-        }
+//        for(int i = 0; i< currentLocations.size(); i++){
+//            Log.e("Results Print", currentLocations.get(i).getName());
+//        }
         updateUI();
     }
 
@@ -90,7 +93,7 @@ public class YelpListFragment extends Fragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        currentLocations = new ArrayList<>();
+        currentLocations = new ArrayList<Business>();
         sYelpLab = YelpLab.get(getActivity());
         getList();
     }

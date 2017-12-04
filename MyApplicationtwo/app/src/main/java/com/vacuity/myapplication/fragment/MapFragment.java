@@ -98,9 +98,9 @@ public class MapFragment extends SupportMapFragment
         YelpLab tYelpLab = YelpLab.get(getActivity());
         tYelpLab.submitResults(r);
         currentLocations = r;
-        for(int i=0; i<currentLocations.size();i++){
-            //Log.e("Results Print", myRes.get(i).getName());
-        }
+//        for(int i=0; i<currentLocations.size();i++){
+//            //Log.e("Results Print", myRes.get(i).getName());
+//        }
         updateUI();
     }
 
@@ -141,12 +141,15 @@ public class MapFragment extends SupportMapFragment
                 .build();
 
         getMapAsync(new OnMapReadyCallback() {
+
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 mMap = googleMap;
                 updateUI();
+
             }
         });
+
     }
 
     @Override
@@ -171,7 +174,6 @@ public class MapFragment extends SupportMapFragment
     @Override
     public void onStop() {
         super.onStop();
-
         mClient.disconnect();
     }
 
@@ -194,19 +196,6 @@ public class MapFragment extends SupportMapFragment
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.action_locate:
-//                if (hasLocationPermission()) {
-//                    renewLocation();
-//                    updateUI();
-//                } else {
-//                    requestPermissions(LOCATION_PERMISSIONS,
-//                            REQUEST_LOCATION_PERMISSIONS);
-//                }
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
         switch (item.getItemId()) {
             case R.id.action_search:
                 Log.e("Menu", "action Search");
@@ -252,7 +241,22 @@ public class MapFragment extends SupportMapFragment
         for(String ss : queryTerms){
             paramters.put("term", ss);
         }
-        paramters.put("location", "94132");
+        if(searchBar){
+            paramters.put("categories", "bars");
+        }
+        if(searchClub){
+            paramters.put("categories", "danceclubs");
+            paramters.put("categories", "nightlife");
+        }
+        if(searchRestaurant){
+            paramters.put("categories", "restaurants");
+        }
+        if(mCurrentLocation != null){
+            paramters.put("latitude", Double.toString(mCurrentLocation.getLatitude()));
+            paramters.put("longitude", Double.toString(mCurrentLocation.getLongitude()));
+        } else {
+            paramters.put("location", "94132");
+        }
 
         try{
             //MapFragment.SearchTask searchTask = new MapFragment.SearchTask();
@@ -318,6 +322,8 @@ public class MapFragment extends SupportMapFragment
         if (mMap == null ) {
             return;
         }
+        mMap.clear();
+        Log.e("Hello", "World");
         getList();
         ArrayList<LatLng> pList = new ArrayList<>();
         float dist = 99999999;
@@ -368,7 +374,10 @@ public class MapFragment extends SupportMapFragment
                 .build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
+
     }
+
+
 
 
     private class SearchTask extends AsyncTask<Map<String, String>, Integer, ArrayList<Business>> {

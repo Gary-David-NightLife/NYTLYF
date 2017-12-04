@@ -10,12 +10,17 @@
     <item android:id="@+id/nav_Favorites"
         android:title="Favorites"
         android:icon="@mipmap/ic_favorite_black_24dp"/>
-    <item android:id="@+id/nav_Club"
-        android:title="Club"/>
+    <!--<item android:id="@+id/nav_Club"-->
+        <!--android:title="Club"/>-->
     <item
-        android:id="@+id/menu_id"
+        android:id="@+id/menu_cat_a"
         android:title=""
         app:showAsAction="never"
-        app:actionLayout="@layout/nav_categories"/>
+        app:actionLayout="@layout/nav_categories_a"/>
+    <item
+        android:id="@+id/menu_cat_b"
+        android:title=""
+        app:showAsAction="never"
+        app:actionLayout="@layout/nav_categories_b"/>
 
 </menu>
