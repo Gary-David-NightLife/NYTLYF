@@ -1,11 +1,17 @@
 package com.vacuity.myapplication.fragment;
 
+
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+//import android.location.Location;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,29 +19,48 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.location.*;
+
+import java.util.Calendar;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.google.android.gms.location.FusedLocationProviderApi;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.lyft.lyftbutton.LyftButton;
+import com.lyft.lyftbutton.RideParams;
+import com.lyft.lyftbutton.RideTypeEnum;
+import com.lyft.networking.ApiConfig;
 import com.vacuity.myapplication.R;
 import com.vacuity.myapplication.app.App;
 import com.vacuity.myapplication.models.Business;
+import com.vacuity.myapplication.models.Location;
 import com.vacuity.myapplication.models.model.YelpLab;
 import com.vacuity.myapplication.models.model.nytlyfLab;
 import com.vacuity.myapplication.volley.VolleySingleton;
+import com.lyft.*;
+import com.google.android.gms.*;
+
 
 /**
  * Created by Gary Straub on 11/13/2017.
  */
 
-public class YelpFragment extends Fragment{
+public class YelpFragment extends Fragment {
     private Business mBusiness;
+    private com.vacuity.myapplication.models.Location mLocation;
     private TextView mTitle;
     private TextView Description;
+    private TextView Address;
     private NetworkImageView mImage;
     private Button mButtonHere;
     private Button mButtonLike;
     private Button mButtonDislike;
-
+    private android.location.Location cLocation;
+    private FusedLocationProviderClient mFusedLocationClient;
+    LocationManager locationManager;
 
 
     private static final String ARG_YELP_ID = "yelp id";
@@ -52,9 +77,33 @@ public class YelpFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+
         String yelpID = (String) getArguments().getSerializable(ARG_YELP_ID);
         mBusiness = YelpLab.get(getActivity()).getBusiness(yelpID);
+        mLocation = mBusiness.getLocation();
+
+        //String locationProvider = LocationManager.NETWORK_PROVIDER;
+// Or use LocationManager.GPS_PROVIDER
+
+        //if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            Log.v("gps_debug", "Location not allowed");
+//            return;
+//        }
+//        android.location.Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+//
+//    Log.v("gps_debug", lastKnownLocation.toString());
+
     }
+
+
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -85,6 +134,25 @@ public class YelpFragment extends Fragment{
         String d = Html.fromHtml(mBusiness.getDisplayPhone()).toString();
         Description.setText(d);
         Description.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        Address = (TextView) v.findViewById(R.id.frag_addr);
+        String g = mLocation.getAddress1().toString();
+        Address.setText(g);
+        Address.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -132,6 +200,20 @@ public class YelpFragment extends Fragment{
                 Toast.makeText(getContext(), "Button Like", Toast.LENGTH_SHORT).show();
             }
         });
+        ApiConfig apiConfig = new ApiConfig.Builder()
+                .setClientId("iXr4bNITC70T")
+                .setClientToken("UoIFugJ+AS0VT9pNdEi/f8H1elJtNAO0iNm7z7BWJtQf2XVKcTpyQ2zvxGNrnoEvQzpnU9ksbcfTTt+O4G18q5n0E0fKglhaZu0fAxmyv/SSYllHdfQhfbk=")
+                .build();
+
+        LyftButton lyftButton = (LyftButton) v.findViewById(R.id.lyft_button);
+        lyftButton.setApiConfig(apiConfig);
+        RideParams.Builder rideParamsBuilder = new RideParams.Builder()
+                .setPickupLocation(37.7219, 122.4782)
+                .setDropoffAddress(mLocation.getAddress1());
+        rideParamsBuilder.setRideTypeEnum(RideTypeEnum.CLASSIC);
+
+        lyftButton.setRideParams(rideParamsBuilder.build());
+        lyftButton.load();
 
 
 
