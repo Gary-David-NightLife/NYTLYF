@@ -6,8 +6,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.vacuity.myapplication.fragment.CalendarFragment;
 import com.vacuity.myapplication.fragment.MapFragment;
+import com.vacuity.myapplication.fragment.MapsFragment;
 import com.vacuity.myapplication.fragment.YelpListFragment;
-import com.vacuity.myapplication.fragment.historyFragment;
 
 /**
  * Created by Gary Straub on 8/10/2017.
@@ -36,7 +36,7 @@ public class TabAdapter extends FragmentStatePagerAdapter {
                 YelpListFragment tab2 = new YelpListFragment();
                 return tab2;
             case 2:
-                historyFragment tab3 = new historyFragment();
+                MapsFragment tab3 = new MapsFragment();
                 return tab3;
             case 3:
                 CalendarFragment tab4 = new CalendarFragment();

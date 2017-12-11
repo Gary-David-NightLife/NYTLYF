@@ -1,6 +1,7 @@
 package com.vacuity.myapplication.models.model;
 
 import android.content.Context;
+import android.location.Location;
 import android.util.Log;
 
 import com.vacuity.myapplication.connection.YelpAPIConnector;
@@ -19,6 +20,7 @@ public class YelpLab {
     private static ArrayList<Business> mBuissnessList;
     private static YelpLab sYelpLab;
     //private YelpAPIConnector yelpAPIConnector;
+    private static Location mLocation;
 
     public static YelpLab get(Context context){
         if(sYelpLab == null){
@@ -81,6 +83,14 @@ public class YelpLab {
             //Log.e("Attempt Made", "Retrieve Businesses");
             return mBuissnessList;
         }
+    }
+
+    public void setMyLocation(Location l){
+        mLocation = l;
+    }
+
+    public Location getMyLocation(){
+        return mLocation;
     }
 
 }

@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -27,6 +29,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.vacuity.myapplication.R;
 import com.vacuity.myapplication.connection.YelpFusionApi;
@@ -50,7 +53,8 @@ import static junit.framework.Assert.assertNotNull;
 
 public class MapFragment extends SupportMapFragment
         implements
-        SearchView.OnQueryTextListener {
+        SearchView.OnQueryTextListener,
+GoogleMap.OnInfoWindowClickListener{
 
     private static final String TAG = "MapFragment";
     private static final String[] LOCATION_PERMISSIONS = new String[]{
@@ -58,7 +62,7 @@ public class MapFragment extends SupportMapFragment
             Manifest.permission.ACCESS_COARSE_LOCATION,
     };
     private static final int REQUEST_LOCATION_PERMISSIONS = 0;
-
+    //private FusedLocationProviderClient mFusedLocationClient;
     private GoogleApiClient mClient;
     private GoogleMap mMap;
     //private LocationServices mFusedLocationClient;
@@ -70,6 +74,8 @@ public class MapFragment extends SupportMapFragment
     private Boolean searchClub;
     private Boolean searchRestaurant;
     private ArrayList<Business> currentLocations;
+    private LocationListener mLocationListener;
+    private LocationManager mLocationManager;
     private Menu mMenu;
 
 
@@ -121,15 +127,13 @@ public class MapFragment extends SupportMapFragment
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         sYelpLab = YelpLab.get(getActivity());
-
         //mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
         mClient = new GoogleApiClient.Builder(getActivity()).addApi(LocationServices.API)
                 .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
                     @Override
                     public void onConnected(@Nullable Bundle bundle) {
                         getActivity().invalidateOptionsMenu();
-                        //renewLocation();
+
                         getList();
                     }
 
@@ -145,10 +149,12 @@ public class MapFragment extends SupportMapFragment
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 mMap = googleMap;
+                //mMap.setOnInfoWindowClickListener();
                 updateUI();
 
             }
         });
+
 
     }
 
@@ -296,6 +302,11 @@ public class MapFragment extends SupportMapFragment
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
+    private void refreshLocation(){
+
+    }
+
+
     @SuppressLint("MissingPermission")
     private void renewLocation() {
         LocationRequest request = LocationRequest.create();
@@ -309,7 +320,7 @@ public class MapFragment extends SupportMapFragment
                     public void onLocationChanged(Location location) {
                         Log.e(TAG, "Got a fix: " + location);
                         mCurrentLocation = location;
-                        updateUI();
+                        //updateUI();
                     }
                 });
     }
@@ -321,6 +332,9 @@ public class MapFragment extends SupportMapFragment
     private void updateUI() {
         if (mMap == null ) {
             return;
+        }
+        if(mClient.isConnected()){
+//            renewLocation();
         }
         mMap.clear();
         Log.e("Hello", "World");
@@ -354,30 +368,45 @@ public class MapFragment extends SupportMapFragment
         }
         Log.e("Closest Dist", Float.toString(dist));
 
-        LatLng sydney = new LatLng(37.723894, -122.479274);
 
-        mMap.addMarker(new MarkerOptions().position(sydney).title("SF State").icon(BitmapDescriptorFactory
-        .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
         if(mCurrentLocation!=null){
             LatLng myPoint = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(myPoint).title("Meeeee")
+            mMap.addMarker(new MarkerOptions().position(myPoint).title("Current Location")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(myPoint));
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(myPoint)
+                    .zoom(15)
+                    .bearing(4)
+                    .tilt(30)
+                    .build();
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }else {
+            LatLng sydney = new LatLng(37.723894, -122.479274);
+
+            mMap.addMarker(new MarkerOptions().position(sydney).title("SF State").icon(BitmapDescriptorFactory
+                    .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
             Log.e("Marker", "Location Marker not set");
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney)
+                    .zoom(15)
+                    .bearing(4)
+                    .tilt(30)
+                    .build();
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney)
-                .zoom(15)
-                .bearing(4)
-                .tilt(30)
-                .build();
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+        Log.e("Marker", "Location Marker not set");
 
 
     }
 
-
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Toast.makeText(getActivity(), "Map: Info Tag", Toast.LENGTH_SHORT).show();
+    }
 
 
     private class SearchTask extends AsyncTask<Map<String, String>, Integer, ArrayList<Business>> {

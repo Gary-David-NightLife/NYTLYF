@@ -12,6 +12,20 @@
         android:icon="@mipmap/ic_favorite_black_24dp"/>
     <!--<item android:id="@+id/nav_Club"-->
         <!--android:title="Club"/>-->
+    <!--<group-->
+        <!--android:checkableBehavior="all"-->
+        <!--android:menuCategory="container">-->
+        <!--<item android:id="@+id/nav_sel_bar"-->
+            <!--android:checked="true"-->
+            <!--android:title="Bars"/>-->
+        <!--<item android:id="@+id/nav_sel_rest"-->
+            <!--android:checked="true"-->
+            <!--android:title="Restaurants" />-->
+        <!--<item android:id="@+id/nav_sel_Club"-->
+            <!--android:checked="true"-->
+            <!--android:title="Club" />-->
+    <!--</group>-->
+    <group android:checkableBehavior="all">
     <item
         android:id="@+id/menu_cat_a"
         android:title=""
@@ -22,5 +36,5 @@
         android:title=""
         app:showAsAction="never"
         app:actionLayout="@layout/nav_categories_b"/>
-
+    </group>
 </menu>

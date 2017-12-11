@@ -5,14 +5,19 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.vacuity.myapplication.R;
 import com.vacuity.myapplication.models.Business;
@@ -33,14 +38,18 @@ public class TabActivity extends AppCompatActivity
     private YelpLab sYelpLab;
     private ArrayList<Business> myRes;
     private DrawerLayout mDrawerLayout;
+    private ToggleButton mToggleButtonBar;
+    private ToggleButton mToggleButtonClub;
+    private ToggleButton mToggleButtonRestaurant;
 
     protected void onCreate(Bundle savedInstanceState) {
 
 
         super.onCreate(savedInstanceState);
+        sYelpLab = YelpLab.get(getApplicationContext());
+
         setContentView(R.layout.tab_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.mtoolbar);
-        sYelpLab = YelpLab.get(getApplicationContext());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -53,11 +62,55 @@ public class TabActivity extends AppCompatActivity
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, mDrawerLayout, toolbar, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+        NavigationView navigationView = (NavigationView) findViewById(R.id.draw_nav);
+        navigationView.setNavigationItemSelectedListener(this);
 
+        Menu menu = navigationView.getMenu();
+        MenuItem myItemOne = menu.findItem(R.id.menu_cat_a);
+        View actionView = MenuItemCompat.getActionView(myItemOne);
+        mToggleButtonBar = (ToggleButton) actionView.findViewById(R.id.nav_bar);
+        mToggleButtonBar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Toast.makeText(getApplicationContext(), "Bars", Toast.LENGTH_SHORT).show();
+                    Log.e("Drawer Menu", "Bars");
+                } else {
+                    Log.e("Drawer Menu", "Bars");
+                    Toast.makeText(getApplicationContext(), "Bars", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+//        mToggleButtonClub = (ToggleButton) actionView.findViewById(R.id.nav_club);
+//        mToggleButtonClub.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    Toast.makeText(getApplicationContext(), "Clubs", Toast.LENGTH_SHORT).show();
+//                    Log.e("Drawer Menu", "Bars");
+//                } else {
+//                    Log.e("Drawer Menu", "Bars");
+//                    Toast.makeText(getApplicationContext(), "Clubs", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+        MenuItem myItemTwo = menu.findItem(R.id.menu_cat_b);
+        View actionViewTwo = MenuItemCompat.getActionView(myItemTwo);
+        mToggleButtonRestaurant = (ToggleButton) actionViewTwo.findViewById(R.id.nav_restaurant);
+        mToggleButtonRestaurant.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Toast.makeText(getApplicationContext(), "Restaurants", Toast.LENGTH_SHORT).show();
+                    Log.e("Drawer Menu", "Bars");
+                } else {
+                    Log.e("Drawer Menu", "Bars");
+                    Toast.makeText(getApplicationContext(), "Restaurants", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final TabAdapter adapter = new TabAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount()) {
@@ -79,6 +132,7 @@ public class TabActivity extends AppCompatActivity
 
         }
 
+
     });
     }
 
@@ -87,25 +141,38 @@ public class TabActivity extends AppCompatActivity
 //        getMenuInflater().inflate(R.menu.drawer_menu, menu);
 //        return false;
 //    }
-//    public boolean onOptionsItemSelected(MenuItem item){
-//        int id = item.getItemId();
-//        if(id == R.id.nav_refresh){
-//            Toast.makeText(getApplicationContext(), "I exist", Toast.LENGTH_SHORT).show();
-//            return false;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        if(id == R.id.nav_refresh){
+            Toast.makeText(getApplicationContext(), "I exist", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
         int id = item.getItemId();
+        ToggleButton toggle = (ToggleButton) findViewById(R.id.nav_bar);
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Toast.makeText(getApplicationContext(), "Bars", Toast.LENGTH_SHORT).show();
+                    Log.e("Drawer Menu", "Bars");
+                } else {
+                    Log.e("Drawer Menu", "Bars");
+                    Toast.makeText(getApplicationContext(), "Bars", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         if (id == R.id.nav_bar) {
             Toast.makeText(getApplicationContext(), "Bars", Toast.LENGTH_SHORT).show();
             Log.e("Drawer Menu", "Bars");
             // Handle the camera action
-        } else if (id == R.id.nav_club) {
+        } else if (id == R.id.nav_restaurant) {
             Toast.makeText(getApplicationContext(), "Clubs", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_restaurant) {
@@ -113,15 +180,16 @@ public class TabActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_Favorites) {
             Toast.makeText(getApplicationContext(), "Favorites", Toast.LENGTH_SHORT).show();
-
+            Log.e("Drawer Menu", "Bars");
         } else if (id == R.id.nav_refresh) {
             Toast.makeText(getApplicationContext(), "Refresh", Toast.LENGTH_SHORT).show();
+            Log.e("Drawer Menu", "Bars");
 
         }
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_layout);
         mDrawerLayout.closeDrawer(GravityCompat.START);
-        return true;
+        return false;
     }
 
 }
