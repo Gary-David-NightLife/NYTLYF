@@ -12,10 +12,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -31,7 +35,7 @@ import java.util.ArrayList;
  */
 
 public class TabActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
     private Boolean searchBar;
     private Boolean searchClub;
     private Boolean searchRestaurant;
@@ -40,9 +44,12 @@ public class TabActivity extends AppCompatActivity
     private DrawerLayout mDrawerLayout;
     private ToggleButton mToggleButtonBar;
     private ToggleButton mToggleButtonClub;
-    private ToggleButton mToggleButtonRestaurant;
+    private Button mToggleButtonRestaurant;
+    private ListView mListView;
+
 
     protected void onCreate(Bundle savedInstanceState) {
+
 
 
         super.onCreate(savedInstanceState);
@@ -67,50 +74,64 @@ public class TabActivity extends AppCompatActivity
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.draw_nav);
         navigationView.setNavigationItemSelectedListener(this);
 
         Menu menu = navigationView.getMenu();
-        MenuItem myItemOne = menu.findItem(R.id.menu_cat_a);
-        View actionView = MenuItemCompat.getActionView(myItemOne);
-        mToggleButtonBar = (ToggleButton) actionView.findViewById(R.id.nav_bar);
-        mToggleButtonBar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Toast.makeText(getApplicationContext(), "Bars", Toast.LENGTH_SHORT).show();
-                    Log.e("Drawer Menu", "Bars");
-                } else {
-                    Log.e("Drawer Menu", "Bars");
-                    Toast.makeText(getApplicationContext(), "Bars", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-//        mToggleButtonClub = (ToggleButton) actionView.findViewById(R.id.nav_club);
-//        mToggleButtonClub.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//        MenuItem myItemOne = (MenuItem) menu.findItem(R.id.nav_refresh);
+//        View actionView = MenuItemCompat.getActionView(myItemOne);
+//        this.registerForContextMenu(actionView.findViewById(R.id.nav_refresh));
+
+
+
+//        Menu menu = navigationView.getMenu();
+//        MenuItem myItemOne = menu.findItem(R.id.menu_cat_a);
+//        View actionView = MenuItemCompat.getActionView(myItemOne);
+//        mToggleButtonBar = (ToggleButton) actionView.findViewById(R.id.nav_bar);
+//        mToggleButtonBar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 //            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                YelpLab tYelpLab = YelpLab.get(getApplicationContext());
+//
 //                if (isChecked) {
-//                    Toast.makeText(getApplicationContext(), "Clubs", Toast.LENGTH_SHORT).show();
+//                    tYelpLab.setBar(Boolean.TRUE);
+//                    Toast.makeText(getApplicationContext(), "Barssss", Toast.LENGTH_SHORT).show();
 //                    Log.e("Drawer Menu", "Bars");
 //                } else {
+//                    tYelpLab.setBar(Boolean.FALSE);
 //                    Log.e("Drawer Menu", "Bars");
-//                    Toast.makeText(getApplicationContext(), "Clubs", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "Barsssss", Toast.LENGTH_SHORT).show();
 //                }
 //            }
 //        });
+////        mToggleButtonClub = (ToggleButton) actionView.findViewById(R.id.nav_club);
+////        mToggleButtonClub.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+////            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+////                if (isChecked) {
+////                    Toast.makeText(getApplicationContext(), "Clubs", Toast.LENGTH_SHORT).show();
+////                    Log.e("Drawer Menu", "Bars");
+////                } else {
+////                    Log.e("Drawer Menu", "Bars");
+////                    Toast.makeText(getApplicationContext(), "Clubs", Toast.LENGTH_SHORT).show();
+////                }
+////            }
+////        });
         MenuItem myItemTwo = menu.findItem(R.id.menu_cat_b);
         View actionViewTwo = MenuItemCompat.getActionView(myItemTwo);
-        mToggleButtonRestaurant = (ToggleButton) actionViewTwo.findViewById(R.id.nav_restaurant);
-        mToggleButtonRestaurant.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Toast.makeText(getApplicationContext(), "Restaurants", Toast.LENGTH_SHORT).show();
-                    Log.e("Drawer Menu", "Bars");
-                } else {
-                    Log.e("Drawer Menu", "Bars");
-                    Toast.makeText(getApplicationContext(), "Restaurants", Toast.LENGTH_SHORT).show();
-                }
+//        TextView tV = (TextView) actionViewTwo.findViewById(R.id.nav_restaurant);
+        //View v = actionViewTwo.findViewById(R.id.nav_restaurant);
+//        this.registerForContextMenu(navigationView);
+
+        mToggleButtonRestaurant = (Button) actionViewTwo.findViewById(R.id.nav_restaurant);
+        mToggleButtonRestaurant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registerForContextMenu(v);
+                openContextMenu(v);
             }
         });
+
+
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final TabAdapter adapter = new TabAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount()) {
@@ -136,8 +157,26 @@ public class TabActivity extends AppCompatActivity
     });
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        Log.e("Hello", "World");
+//        if(v.getId() == R.id.nav_refresh){
+//            this.getMenuInflater().inflate(R.menu.context_menu, menu);
+//        }
 
-//    public boolean onCreateOptionsMenu(Menu menu){
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.context_menu, menu);
+
+
+        
+//        ListAdapter myListAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, testTwo);
+//        mListView.setAdapter(myListAdapter);
+//        this.getMenuInflater().inflate(R.menu.context_menu, menu);
+    }
+
+
+    //    public boolean onCreateOptionsMenu(Menu menu){
 //        getMenuInflater().inflate(R.menu.drawer_menu, menu);
 //        return false;
 //    }
@@ -153,23 +192,25 @@ public class TabActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
+        YelpLab tYelpLab = YelpLab.get(getApplicationContext());
         int id = item.getItemId();
         ToggleButton toggle = (ToggleButton) findViewById(R.id.nav_bar);
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Toast.makeText(getApplicationContext(), "Bars", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Barssss", Toast.LENGTH_SHORT).show();
                     Log.e("Drawer Menu", "Bars");
                 } else {
                     Log.e("Drawer Menu", "Bars");
-                    Toast.makeText(getApplicationContext(), "Bars", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Barsssss", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        if (id == R.id.nav_bar) {
-            Toast.makeText(getApplicationContext(), "Bars", Toast.LENGTH_SHORT).show();
+        if (id == R.id.nav_refresh) {
+//            View actionView = MenuItemCompat.getActionView(item);
+            //registerForContextMenu(item.getActionView());
+            Toast.makeText(getApplicationContext(), "Barssss", Toast.LENGTH_SHORT).show();
             Log.e("Drawer Menu", "Bars");
             // Handle the camera action
         } else if (id == R.id.nav_restaurant) {
@@ -181,10 +222,43 @@ public class TabActivity extends AppCompatActivity
         } else if (id == R.id.nav_Favorites) {
             Toast.makeText(getApplicationContext(), "Favorites", Toast.LENGTH_SHORT).show();
             Log.e("Drawer Menu", "Bars");
-        } else if (id == R.id.nav_refresh) {
+        } else if (id == R.id.venue) {
+            if(item.isChecked()){
+                item.setChecked(false);
+
+            }else{
+                item.setChecked(true);
+            }
             Toast.makeText(getApplicationContext(), "Refresh", Toast.LENGTH_SHORT).show();
             Log.e("Drawer Menu", "Bars");
-
+            return false;
+        } else if (id == R.id.n_bars){
+            if(item.isChecked()){
+                item.setChecked(false);
+                tYelpLab.setBar(Boolean.FALSE);
+            }else{
+                item.setChecked(true);
+                tYelpLab.setBar(Boolean.TRUE);
+            }
+            return false;
+        } else if (id == R.id.n_clubs){
+            if(item.isChecked()){
+                item.setChecked(false);
+                tYelpLab.setClub(Boolean.FALSE);
+            }else{
+                item.setChecked(true);
+                tYelpLab.setClub(Boolean.TRUE);
+            }
+            return false;
+        } else if (id == R.id.n_rest){
+            if(item.isChecked()){
+                item.setChecked(false);
+                tYelpLab.setClub(Boolean.FALSE);
+            }else{
+                item.setChecked(true);
+                tYelpLab.setClub(Boolean.TRUE);
+            }
+            return false;
         }
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_layout);

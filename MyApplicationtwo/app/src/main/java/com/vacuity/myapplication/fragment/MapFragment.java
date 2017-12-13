@@ -190,9 +190,9 @@ GoogleMap.OnInfoWindowClickListener{
         MenuItem menuItem = menu.findItem(R.id.action_search);
 
         mMenu = menu;
-        searchBar = menu.findItem(R.id.menu_bar).isChecked();
-        searchClub = menu.findItem(R.id.menu_club).isChecked();
-        searchRestaurant = menu.findItem(R.id.menu_restaurant).isChecked();
+//        searchBar = menu.findItem(R.id.menu_bar).isChecked();
+//        searchClub = menu.findItem(R.id.menu_club).isChecked();
+//        searchRestaurant = menu.findItem(R.id.menu_restaurant).isChecked();
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
         searchView.setOnQueryTextListener(this);
         searchView.setIconifiedByDefault(true);
@@ -202,41 +202,42 @@ GoogleMap.OnInfoWindowClickListener{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                Log.e("Menu", "action Search");
-                return true;
-
-            case R.id.menu_bar:
-                if(item.isChecked()){
-                    item.setChecked(false);
-                    this.searchBar = false;
-                }else{
-                    item.setChecked(true);
-                    this.searchBar = true;
-                }
-                return true;
-            case R.id.menu_club:
-                if(item.isChecked()){
-                    item.setChecked(false);
-                    this.searchClub = false;
-                }else{
-                    item.setChecked(true);
-                    this.searchClub = true;
-                }
-                return true;
-            case R.id.menu_restaurant:
-                if(item.isChecked()){
-                    item.setChecked(false);
-                    this.searchRestaurant = false;
-                }else{
-                    item.setChecked(true);
-                    this.searchRestaurant = true;
-                }
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+//        switch (item.getItemId()) {
+//            case R.id.action_search:
+//                Log.e("Menu", "action Search");
+//                return true;
+//
+//            case R.id.menu_bar:
+//                if(item.isChecked()){
+//                    item.setChecked(false);
+//                    this.searchBar = false;
+//                }else{
+//                    item.setChecked(true);
+//                    this.searchBar = true;
+//                }
+//                return true;
+//            case R.id.menu_club:
+//                if(item.isChecked()){
+//                    item.setChecked(false);
+//                    this.searchClub = false;
+//                }else{
+//                    item.setChecked(true);
+//                    this.searchClub = true;
+//                }
+//                return true;
+//            case R.id.menu_restaurant:
+//                if(item.isChecked()){
+//                    item.setChecked(false);
+//                    this.searchRestaurant = false;
+//                }else{
+//                    item.setChecked(true);
+//                    this.searchRestaurant = true;
+//                }
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

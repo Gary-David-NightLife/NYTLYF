@@ -3,21 +3,23 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <ToggleButton
-            android:id="@+id/nav_restaurant"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
+
+        <!--<ToggleButton-->
+            <!--android:id="@+id/nav_restaurant"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textOff="@string/menu_restaurant"-->
+            <!--android:textOn="@string/menu_restaurant"-->
+            <!--android:text="@string/menu_restaurant" />-->
+        <Button
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textOff="@string/menu_restaurant"
-            android:textOn="@string/menu_restaurant"
-            android:text="@string/menu_restaurant" />
+            android:text="HelloWorld"
+            android:id="@+id/nav_restaurant"/>
 
 
-    </LinearLayout>
+
 
 
 

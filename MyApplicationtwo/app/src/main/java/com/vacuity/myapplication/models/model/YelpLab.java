@@ -21,6 +21,9 @@ public class YelpLab {
     private static YelpLab sYelpLab;
     //private YelpAPIConnector yelpAPIConnector;
     private static Location mLocation;
+    private Boolean mBar;
+    private Boolean mClub;
+    private Boolean mRest;
 
     public static YelpLab get(Context context){
         if(sYelpLab == null){
@@ -32,6 +35,7 @@ public class YelpLab {
 
     private YelpLab(Context context){
         mBuissnessList = new ArrayList<>();
+        setFalse();
         try {
             YelpAPIConnector yelpAPIConnector = new YelpAPIConnector();
             //newYelpSearch();
@@ -88,9 +92,35 @@ public class YelpLab {
     public void setMyLocation(Location l){
         mLocation = l;
     }
+    public void getSearchCategories(){
 
+    }
     public Location getMyLocation(){
         return mLocation;
     }
 
+    public void setClub(Boolean b){
+        mClub = b;
+    }
+    public void setBar(Boolean b){
+        mBar = b;
+    }
+    public void setRest(Boolean b){
+        mRest = b;
+    }
+    public Boolean getClub(){
+        return mClub;
+    }
+    public Boolean getBar(){
+        mBar = true;
+        return mBar;
+    }
+    public Boolean getRest(){
+        return mRest;
+    }
+    private void setFalse(){
+        mRest = false;
+        mBar = false;
+        mClub = false;
+    }
 }
