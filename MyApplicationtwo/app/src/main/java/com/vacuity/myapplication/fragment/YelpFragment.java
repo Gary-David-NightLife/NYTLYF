@@ -175,7 +175,7 @@ public class YelpFragment extends Fragment{
         //double pickupLon = mCurrentLocation.getLongitude();
 
         RideParams.Builder rideParamsBuilder = new RideParams.Builder()
-                .setPickupLocation(37.7628,-122.497)//(double)mCurrentLocation.getLatitude(), (double)mCurrentLocation.getLongitude())
+                .setPickupLocation(37.7219,-122.4782)//(double)mCurrentLocation.getLatitude(), (double)mCurrentLocation.getLongitude())
                 .setDropoffAddress(mLocation.getAddress1()+" "+mLocation.getAddress2());
         rideParamsBuilder.setRideTypeEnum(RideTypeEnum.CLASSIC);
 
