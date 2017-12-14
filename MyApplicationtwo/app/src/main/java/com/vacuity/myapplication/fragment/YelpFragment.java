@@ -174,12 +174,12 @@ public class YelpFragment extends Fragment{
                 .setClientToken("UoIFugJ+AS0VT9pNdEi/f8H1elJtNAO0iNm7z7BWJtQf2XVKcTpyQ2zvxGNrnoEvQzpnU9ksbcfTTt+O4G18q5n0E0fKglhaZu0fAxmyv/SSYllHdfQhfbk=")
                 .build();
 
-        LyftButton lyftButton = (LyftButton) findViewById(R.id.lyft_button);
+        LyftButton lyftButton = (LyftButton) v.findViewById(R.id.lyft_button);
         lyftButton.setApiConfig(apiConfig);
 
         RideParams.Builder rideParamsBuilder = new RideParams.Builder()
                 .setPickupLocation(mMyLocation.getLongitude(), mMyLocation.getLatitude())
-                .setDropoffAddress(mLocation.getAddress1(),' ',mLocation.getAddress2());
+                .setDropoffAddress(mLocation.getAddress1()+mLocation.getAddress2());
         rideParamsBuilder.setRideTypeEnum(RideTypeEnum.CLASSIC);
 
         lyftButton.setRideParams(rideParamsBuilder.build());

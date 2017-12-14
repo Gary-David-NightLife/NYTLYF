@@ -54,6 +54,8 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile "com.google.android.gms:play-services-location:10.0.1"
 //    compile 'com.google.android.gms:play-services-location:11.0.1'
+    compile 'com.lyft:lyft-android-sdk:1.0.3'
+
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.7.2'
 
