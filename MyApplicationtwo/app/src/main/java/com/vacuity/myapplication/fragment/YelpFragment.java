@@ -1,5 +1,6 @@
 package com.vacuity.myapplication.fragment;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,12 +24,22 @@ import com.vacuity.myapplication.models.model.YelpLab;
 import com.vacuity.myapplication.models.model.nytlyfLab;
 import com.vacuity.myapplication.volley.VolleySingleton;
 
+import com.lyft.lyftbutton.LyftButton;
+import com.lyft.lyftbutton.RideParams;
+import com.lyft.lyftbutton.RideTypeEnum;
+import com.lyft.networking.ApiConfig;
+
 /**
  * Created by Gary Straub on 11/13/2017.
  */
 
 public class YelpFragment extends Fragment{
     private Business mBusiness;
+    private com.vacuity.myapplication.models.Location mLocation;
+
+    GPSTracker trak = new GPSTracker(getActivity());
+    private Location mCurrentLocation = trak.getLocation();
+
     private TextView mTitle;
     private TextView Description;
     private NetworkImageView mImage;
@@ -54,6 +65,7 @@ public class YelpFragment extends Fragment{
         super.onCreate(savedInstanceState);
         String yelpID = (String) getArguments().getSerializable(ARG_YELP_ID);
         mBusiness = YelpLab.get(getActivity()).getBusiness(yelpID);
+        mLocation = mBusiness.getLocation();
     }
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
@@ -84,6 +96,25 @@ public class YelpFragment extends Fragment{
         Description = (TextView) v.findViewById(R.id.frag_desc);
         String d = Html.fromHtml(mBusiness.getDisplayPhone()).toString();
         Description.setText(d);
+        Description.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        Description = (TextView) v.findViewById(R.id.frag_addr);
+        String z = mLocation.getAddress1().toString();
+        Description.setText(z);
         Description.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -132,6 +163,22 @@ public class YelpFragment extends Fragment{
                 Toast.makeText(getContext(), "Button Like", Toast.LENGTH_SHORT).show();
             }
         });
+
+        ApiConfig apiConfig = new ApiConfig.Builder()
+                .setClientId("iXr4bNITC70T")
+                .setClientToken("UoIFugJ+AS0VT9pNdEi/f8H1elJtNAO0iNm7z7BWJtQf2XVKcTpyQ2zvxGNrnoEvQzpnU9ksbcfTTt+O4G18q5n0E0fKglhaZu0fAxmyv/SSYllHdfQhfbk=")
+                .build();
+
+        LyftButton lyftButton = (LyftButton) v.findViewById(R.id.lyft_button);
+        lyftButton.setApiConfig(apiConfig);
+
+        RideParams.Builder rideParamsBuilder = new RideParams.Builder()
+                .setPickupLocation((double)mCurrentLocation.getLatitude(), (double)mCurrentLocation.getLongitude())
+                .setDropoffAddress(mLocation.getAddress1()+" "+mLocation.getAddress2());
+        rideParamsBuilder.setRideTypeEnum(RideTypeEnum.CLASSIC);
+
+        lyftButton.setRideParams(rideParamsBuilder.build());
+        lyftButton.load();
 
 
 
