@@ -178,8 +178,8 @@ public class YelpFragment extends Fragment{
         lyftButton.setApiConfig(apiConfig);
 
         RideParams.Builder rideParamsBuilder = new RideParams.Builder()
-                .setPickupLocation(37.7766048, -122.3943629)
-                .setDropoffLocation(37.759234, -122.4135125);
+                .setPickupLocation(mMyLocation.getLongitude(), mMyLocation.getLatitude())
+                .setDropoffAddress(mLocation.getAddress1(),' ',mLocation.getAddress2());
         rideParamsBuilder.setRideTypeEnum(RideTypeEnum.CLASSIC);
 
         lyftButton.setRideParams(rideParamsBuilder.build());
