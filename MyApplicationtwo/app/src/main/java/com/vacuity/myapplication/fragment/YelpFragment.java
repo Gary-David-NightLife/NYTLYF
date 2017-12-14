@@ -170,8 +170,8 @@ public class YelpFragment extends Fragment{
         });
 
         ApiConfig apiConfig = new ApiConfig.Builder()
-                .setClientId("...")
-                .setClientToken("...")
+                .setClientId("iXr4bNITC70T")
+                .setClientToken("UoIFugJ+AS0VT9pNdEi/f8H1elJtNAO0iNm7z7BWJtQf2XVKcTpyQ2zvxGNrnoEvQzpnU9ksbcfTTt+O4G18q5n0E0fKglhaZu0fAxmyv/SSYllHdfQhfbk=")
                 .build();
 
         LyftButton lyftButton = (LyftButton) findViewById(R.id.lyft_button);
