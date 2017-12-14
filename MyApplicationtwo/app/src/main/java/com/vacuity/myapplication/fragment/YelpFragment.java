@@ -55,6 +55,9 @@ public class YelpFragment extends Fragment{
     private Business mBusiness;
     private TextView mTitle;
     private TextView Description;
+    private TextView mRating;
+    private TextView mCost;
+    private TextView mCat;
     private NetworkImageView mImage;
     private NetworkImageView mImage1;
     private NetworkImageView mImage2;
@@ -117,8 +120,8 @@ public class YelpFragment extends Fragment{
 
             }
         });
-        Description = (TextView) v.findViewById(R.id.frag_desc);
-        String d = Html.fromHtml(mBusiness.getDisplayPhone()).toString();
+        Description = (TextView) v.findViewById(R.id.address);
+        String d = Html.fromHtml(mBusiness.getLocation().getAddress1()).toString();
         Description.setText(d);
         Description.addTextChangedListener(new TextWatcher() {
             @Override
@@ -136,6 +139,74 @@ public class YelpFragment extends Fragment{
 
             }
         });
+        String nString = mBusiness.getCategories().get(0).getTitle();
+        for(int i = 1; i<mBusiness.getCategories().size(); i++){
+            nString = nString + ", " + mBusiness.getCategories().get(i).getTitle();
+        }
+
+        mCat = (TextView) v.findViewById(R.id.categories);
+        String h = (nString);
+        mCat.setText(h);
+        mCat.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+        mRating = (TextView) v.findViewById(R.id.rating);
+        String g = Double.toString(mBusiness.getRating());
+        mRating.setText(g);
+        mRating.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        mCost = (TextView) v.findViewById(R.id.dollar_sign);
+        String f = Html.fromHtml(mBusiness.getPrice()).toString();
+        mCost.setText(f);
+        mCost.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+
+
         mImage = (NetworkImageView) v.findViewById(R.id.frag_img);
         final ImageLoader imageLoader = VolleySingleton.getInstance(App.getContext()).getImageLoader();
         mImage.setImageUrl(mBusiness.getImageUrl(),imageLoader);
@@ -228,7 +299,7 @@ public class YelpFragment extends Fragment{
                 .setPickupLocation(location.getLatitude(), location.getLongitude(), PICKUP_NICK, tmp.getLocation().getAddress1() )
                 .setDropoffLocation(mBusiness.getCoordinates().getLatitude(), mBusiness.getCoordinates().getLongitude(), mBusiness.getName(),
                         mBusiness.getLocation().getAddress1())
-
+                .setProductId("a1111c8c-c720-46c3-8534-2fcdd730040d")
                 .build();
 
 

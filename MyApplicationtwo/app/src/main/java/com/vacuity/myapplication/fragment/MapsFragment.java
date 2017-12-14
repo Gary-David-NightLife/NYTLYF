@@ -122,8 +122,9 @@ public class MapsFragment extends Fragment
         if(tYelpLab.getBar()){
             paramters.put("categories", "bars");
         }
+        paramters.put("categories", "nightlife");
         if(tYelpLab.getClub()){
-            paramters.put("categories", "danceclubs");
+
             paramters.put("categories", "nightlife");
         }
         if(tYelpLab.getRest()){
@@ -142,6 +143,7 @@ public class MapsFragment extends Fragment
         }catch (IOException e){
             e.printStackTrace();
         }
+        Log.e("Hello", "I Exist");
 
     }
 
@@ -184,6 +186,17 @@ public class MapsFragment extends Fragment
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.refresh_icon:
+                refreshLocation();
+                defaultSearch();
+                return false;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+
+
 //        switch (item.getItemId()) {
 //            case R.id.action_search:
 //                Log.e("Menu", "action Search");
@@ -219,7 +232,7 @@ public class MapsFragment extends Fragment
 //            default:
 //                return super.onOptionsItemSelected(item);
 //        }
-        return false;
+
     }
 
     private void createMarkers(ArrayList<Business> m){
@@ -244,15 +257,20 @@ public class MapsFragment extends Fragment
             paramters.put("term", ss);
         }
         YelpLab tYelpLab = YelpLab.get(getActivity());
+        paramters.put("categories", "nightlife");
         if(tYelpLab.getBar()){
             paramters.put("categories", "bars");
         }
         if(tYelpLab.getClub()){
             paramters.put("categories", "danceclubs");
-            paramters.put("categories", "nightlife");
+
         }
         if(tYelpLab.getRest()){
             paramters.put("categories", "restaurants");
+        }
+        if(tYelpLab.getVenue()){
+            paramters.put("categories", "musicvenues");
+            paramters.put("categories", "stadiumsarenas");
         }
 
         if(mLocation != null){

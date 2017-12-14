@@ -12,6 +12,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
+            android:paddingTop="10dp"
             android:layout_height="wrap_content">
 
             <com.android.volley.toolbox.NetworkImageView
@@ -23,6 +24,8 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="4"
+                android:paddingRight="10dp"
+                android:backgroundTint="@color/black"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -37,7 +40,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="5"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
 
                     <Button
                         android:id="@+id/detail_dislike"
@@ -45,7 +49,9 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="20dp"
                         android:layout_weight="5"
-                        android:background="@color/dislike_red"
+                        android:paddingRight="5dp"
+                        android:paddingBottom="5dp"
+                        android:background="#FFFFFF"
                         android:drawableTop="@mipmap/ic_thumb_down_black_48dp" />
 
                     <Button
@@ -54,7 +60,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="20dp"
                         android:layout_weight="5"
-                        android:background="@color/like_green"
+                        android:background="#FFFFFF"
                         android:drawableTop="@mipmap/ic_thumb_up_black_48dp" />
 
                 </LinearLayout>
@@ -66,11 +72,50 @@
         <TextView
             android:id="@+id/frag_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/frag_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="30sp"
+            android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:textSize="15sp"
+                android:textColor="@color/black"/>
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="40dp">
+    <TextView
+        android:layout_width="0dp"
+        android:id="@+id/categories"
+        android:layout_weight="6"
+        android:layout_height="match_parent" />
+    <TextView
+        android:id="@+id/rating"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_margin="3dp"
+        android:textSize="20sp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"/>
+    <TextView
+        android:id="@+id/dollar_sign"
+        android:layout_margin="5dp"
+        android:textSize="20sp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
+
+
+
+
+
+
 
         <LinearLayout
             android:layout_width="match_parent"

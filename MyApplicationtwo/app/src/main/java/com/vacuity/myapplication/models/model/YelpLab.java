@@ -23,6 +23,7 @@ public class YelpLab {
     private static Location mLocation;
     private Boolean mBar;
     private Boolean mClub;
+    private Boolean mVenue;
     private Boolean mRest;
 
     public static YelpLab get(Context context){
@@ -114,6 +115,12 @@ public class YelpLab {
     public Boolean getBar(){
         mBar = true;
         return mBar;
+    }
+    public void setVenue(Boolean b){
+        mVenue = b;
+    }
+    public Boolean getVenue(){
+        return mVenue;
     }
     public Boolean getRest(){
         return mRest;

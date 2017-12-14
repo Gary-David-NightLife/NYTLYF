@@ -52,17 +52,4 @@
 </group>
 
 
-
-    <item android:title="Categories">
-<menu>
-
-
-            <item
-            android:id="@+id/menu_cat_b"
-            android:title=""
-            app:showAsAction="never"
-            app:actionLayout="@layout/nav_categories_b" />
-</menu>
-    </item>
-
 </menu>

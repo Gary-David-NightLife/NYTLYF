@@ -118,20 +118,20 @@ public class TabActivity extends AppCompatActivity
 ////                }
 ////            }
 ////        });
-        MenuItem myItemTwo = menu.findItem(R.id.menu_cat_b);
-        View actionViewTwo = MenuItemCompat.getActionView(myItemTwo);
+//        MenuItem myItemTwo = menu.findItem(R.id.menu_cat_b);
+//        View actionViewTwo = MenuItemCompat.getActionView(myItemTwo);
 //        TextView tV = (TextView) actionViewTwo.findViewById(R.id.nav_restaurant);
 //        View v = actionViewTwo.findViewById(R.id.nav_Favorites);
 //        this.registerForContextMenu(navigationView);
 
-        mToggleButtonRestaurant = (Button) actionViewTwo.findViewById(R.id.nav_restaurant);
-        mToggleButtonRestaurant.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                registerForContextMenu(v);
-                openContextMenu(v);
-            }
-        });
+//        mToggleButtonRestaurant = (Button) actionViewTwo.findViewById(R.id.nav_restaurant);
+//        mToggleButtonRestaurant.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                registerForContextMenu(v);
+//                openContextMenu(v);
+//            }
+//        });
 
         MenuItem myItemOne = menu.findItem(R.id.menu_cat_a);
         View actionView = MenuItemCompat.getActionView(myItemOne);
@@ -247,9 +247,11 @@ public class TabActivity extends AppCompatActivity
         } else if (id == R.id.venue) {
             if(item.isChecked()){
                 item.setChecked(false);
+                tYelpLab.setRest(Boolean.FALSE);
 
             }else{
                 item.setChecked(true);
+                tYelpLab.setRest(Boolean.TRUE);
             }
 //            Toast.makeText(getApplicationContext(), "Refresh", Toast.LENGTH_SHORT).show();
 //            Log.e("Drawer Menu", "Bars");
@@ -275,10 +277,10 @@ public class TabActivity extends AppCompatActivity
         } else if (id == R.id.n_rest){
             if(item.isChecked()){
                 item.setChecked(false);
-                tYelpLab.setClub(Boolean.FALSE);
+                tYelpLab.setRest(Boolean.FALSE);
             }else{
                 item.setChecked(true);
-                tYelpLab.setClub(Boolean.TRUE);
+                tYelpLab.setRest(Boolean.TRUE);
             }
             return false;
         }

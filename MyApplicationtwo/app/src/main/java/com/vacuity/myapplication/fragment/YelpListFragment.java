@@ -282,9 +282,14 @@ public class YelpListFragment extends Fragment
         }
 
         public void bind(Business myYelp) {
+            String nString = myYelp.getCategories().get(0).getTitle();
+            for(int i = 1; i<myYelp.getCategories().size(); i++){
+                nString = nString + ", " + myYelp.getCategories().get(i).getTitle();
+            }
+
             mYelp = myYelp;
             mTitleTextView.setText(mYelp.getName());
-            mDateTextView.setText(mYelp.getPhone().toString());
+            mDateTextView.setText(nString);
             ImageLoader imageLoader = VolleySingleton.getInstance(App.getContext()).getImageLoader();
             mSolvedImageView.setImageUrl(myYelp.getImageUrl(), imageLoader);
         }

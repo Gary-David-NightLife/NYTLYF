@@ -1,9 +1,11 @@
 package com.vacuity.myapplication.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,14 +32,17 @@ public class CalendarFragment extends Fragment {
     private ArrayList<NYTLYFhistory> mHistory;
     TextView mDateDisplay;
     ListView mListView;
+    private Activity activity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        getActivity().getActionBar().hide();
+
     }
 
     private void setHistory(){
-        nytlyfLab tLab = nytlyfLab.get(getActivity());
+        nytlyfLab tLab = nytlyfLab.get(getContext());
         mHistory = tLab.getHistory();
     }
     private ArrayList<String> getRelevant(Date tm){
@@ -51,21 +56,24 @@ public class CalendarFragment extends Fragment {
         tmp.set(Calendar.HOUR, 0);
 
 
+        Calendar tmp2 = tmp;
+//        tmp2.add(Calendar.DAY_OF_MONTH, 1);
+
+
 
         for(int i =0; i< mHistory.size(); i++){
 
 //            Log.e("List", mHistory.get(i).getmDate().toString());
-//            Log.e("List", tm.toString());
+//            Log.e("List", tmp2.toString());
             Calendar hist = toCalendar(mHistory.get(i).getmDate());
             hist.set(Calendar.MILLISECOND, 0);
             hist.set(Calendar.SECOND, 0);
             hist.set(Calendar.MINUTE, 0);
             hist.set(Calendar.HOUR, 0);
 
-            if(tmp.equals(hist)){
-
-                        myResults.add(mHistory.get(i).getmName());
-//                Log.e("List", "getting results");
+            if(tmp.get(Calendar.DAY_OF_YEAR) == hist.get(Calendar.DAY_OF_YEAR)){
+                myResults.add(mHistory.get(i).getmName());
+                Log.e("List", "getting results");
             }
         }
         return myResults;
@@ -81,8 +89,8 @@ public class CalendarFragment extends Fragment {
 
 
 
-
         View v = inflater.inflate(R.layout.calendar_view, container, false);
+
         mListView = (ListView) v.findViewById(R.id.list_view);
 
         mDateDisplay = (TextView) v.findViewById(R.id.calendar_date);
