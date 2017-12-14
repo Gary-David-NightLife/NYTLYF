@@ -17,6 +17,11 @@
             android:layout_height="wrap_content"
             android:text="HelloWorld"
             android:id="@+id/nav_restaurant"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hi Again"
+            android:id="@+id/popup_open" />
 
 
 

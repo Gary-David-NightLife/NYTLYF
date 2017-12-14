@@ -2,17 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+    <item
+        android:icon="@mipmap/ic_location_on_black_24dp"
+        android:id="@+id/menu_cat_a"
+        android:title=""
+        app:actionLayout="@layout/nav_categories_a" />
 <group>
 
 
 
     <item android:id="@+id/nav_refresh"
         android:title="Refresh"
-        android:icon="@mipmap/ic_restore_page_black_24dp"/>
+        android:icon="@mipmap/ic_restore_page_black_24dp" />
 
     <item android:id="@+id/nav_Favorites"
         android:title="Favorites"
-        android:icon="@mipmap/ic_favorite_black_24dp"/>
+        android:icon="@mipmap/ic_favorite_black_24dp" />
 </group>
 
     <item
@@ -50,16 +56,12 @@
     <item android:title="Categories">
 <menu>
 
-            <item
-            android:id="@+id/menu_cat_a"
-            android:title=""
-            app:showAsAction="never"
-            app:actionLayout="@layout/nav_categories_a"/>
+
             <item
             android:id="@+id/menu_cat_b"
             android:title=""
             app:showAsAction="never"
-            app:actionLayout="@layout/nav_categories_b"/>
+            app:actionLayout="@layout/nav_categories_b" />
 </menu>
     </item>
 

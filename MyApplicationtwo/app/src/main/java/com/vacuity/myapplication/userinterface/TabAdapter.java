@@ -34,10 +34,10 @@ public class TabAdapter extends FragmentStatePagerAdapter {
             case 1:
                 YelpListFragment tab2 = new YelpListFragment();
                 return tab2;
+//            case 2:
+//                MapsFragment tab3 = new MapsFragment();
+//                return tab3;
             case 2:
-                MapsFragment tab3 = new MapsFragment();
-                return tab3;
-            case 3:
                 CalendarFragment tab4 = new CalendarFragment();
                 return tab4;
 

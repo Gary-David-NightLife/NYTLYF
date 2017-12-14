@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:title="Hello"/>
-    <item
-        android:title="World"/>
-    <item
-        android:id="@+id/con_men_list"
-        android:title=""
-        app:showAsAction="never"
-        app:actionLayout="@layout/floating_context_view"/>
 
+    <item android:title="Near You?">
+        <menu>
+
+
+        </menu>
+    </item>
 
 </menu>

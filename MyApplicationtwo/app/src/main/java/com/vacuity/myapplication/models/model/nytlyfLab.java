@@ -13,7 +13,7 @@ import java.util.Date;
  */
 
 public class nytlyfLab {
-    private ArrayList<NYTLYFhistory> NYTLYFhistory;
+    private static ArrayList<NYTLYFhistory> NYTLYFhistory;
     private static nytlyfLab sNytlyfLab;
 
     public static nytlyfLab get(Context context){
@@ -33,19 +33,23 @@ public class nytlyfLab {
         for(int i =0; i<s; i++){
             String t = someName + Integer.toString(i);
             NYTLYFhistory nytlyFhistory = new NYTLYFhistory(t);
-            Date tDate = new Date(117, 10, 4+i);
+            Date tDate = new Date(117, 11, 4+i);
             nytlyFhistory.setmDate(tDate);
             NYTLYFhistory.add(nytlyFhistory);
         }
     }
     public ArrayList<NYTLYFhistory> getHistory(){
-        return this.NYTLYFhistory;
+        return NYTLYFhistory;
     }
     public void add(Business bus){
         NYTLYFhistory nytlyFhistory = new NYTLYFhistory(bus.getName());
         Date time = Calendar.getInstance().getTime();
         nytlyFhistory.setmDate(time);
         NYTLYFhistory.add(nytlyFhistory);
+//        Log.e("Hist", "Added");
+//        for(int i =0; i<NYTLYFhistory.size(); i++){
+//            Log.e("Title", NYTLYFhistory.get(i).getmName());
+//        }
     }
 
 

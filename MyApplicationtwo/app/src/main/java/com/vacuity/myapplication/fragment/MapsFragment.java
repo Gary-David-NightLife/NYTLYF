@@ -71,10 +71,6 @@ public class MapsFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_maps, container, false);
 
-
-
-
-
         mMapView = (MapView) v.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();
@@ -100,6 +96,7 @@ public class MapsFragment extends Fragment
         uisettings.setZoomControlsEnabled(true);
 
         // Add a marker in Sydney and move the camera
+        defaultSearch();
         LatLng sydney = new LatLng(latitude, longitude);
         mMap.addMarker(new MarkerOptions().position(sydney).title("I'm here...")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
@@ -109,6 +106,43 @@ public class MapsFragment extends Fragment
                 .bearing(4)
                 .build();
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    }
+    private void setCurrentLocationMarker(){
+        LatLng sydney = new LatLng(latitude, longitude);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("I'm here...")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+    }
+
+
+
+    public void defaultSearch(){
+        Map<String, String> paramters = new HashMap<>();
+
+        YelpLab tYelpLab = YelpLab.get(getActivity());
+        if(tYelpLab.getBar()){
+            paramters.put("categories", "bars");
+        }
+        if(tYelpLab.getClub()){
+            paramters.put("categories", "danceclubs");
+            paramters.put("categories", "nightlife");
+        }
+        if(tYelpLab.getRest()){
+            paramters.put("categories", "restaurants");
+        }
+
+        if(mLocation != null){
+            paramters.put("latitude", Double.toString(mLocation.getLatitude()));
+            paramters.put("longitude", Double.toString(mLocation.getLongitude()));
+        } else {
+            paramters.put("location", "94132");
+        }
+        try{
+            SearchTask searchTask = new SearchTask();
+            searchTask.execute(paramters);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
     }
 
 
@@ -127,8 +161,11 @@ public class MapsFragment extends Fragment
         gpsTracker = new GPSTracker(getActivity());
         mLocation = gpsTracker.getLocation();
 
-        latitude = mLocation.getLatitude();
-        longitude = mLocation.getLongitude();
+        if(mLocation != null){
+            latitude = mLocation.getLatitude();
+            longitude = mLocation.getLongitude();
+        }
+
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -195,6 +232,7 @@ public class MapsFragment extends Fragment
             Marker tMarker = mMap.addMarker(new MarkerOptions().position(tmp).title(m.get(i).getName()));
             mMarkers.add(tMarker);
         }
+        setCurrentLocationMarker();
     }
 
     @Override

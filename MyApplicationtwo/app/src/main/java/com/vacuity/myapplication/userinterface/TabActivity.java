@@ -1,5 +1,6 @@
 package com.vacuity.myapplication.userinterface;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -18,12 +19,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.vacuity.myapplication.R;
+import com.vacuity.myapplication.activity.YelpPagerActivity;
 import com.vacuity.myapplication.models.Business;
 import com.vacuity.myapplication.models.model.YelpLab;
 
@@ -45,7 +47,8 @@ public class TabActivity extends AppCompatActivity
     private ToggleButton mToggleButtonBar;
     private ToggleButton mToggleButtonClub;
     private Button mToggleButtonRestaurant;
-    private ListView mListView;
+    ListView mListView;
+    TextView mTextView;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +66,7 @@ public class TabActivity extends AppCompatActivity
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Map"));
         tabLayout.addTab(tabLayout.newTab().setText("List"));
-        tabLayout.addTab(tabLayout.newTab().setText("History"));
+//        tabLayout.addTab(tabLayout.newTab().setText("History"));
         tabLayout.addTab(tabLayout.newTab().setText("Calendar"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
@@ -79,11 +82,10 @@ public class TabActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Menu menu = navigationView.getMenu();
-//        MenuItem myItemOne = (MenuItem) menu.findItem(R.id.nav_refresh);
-//        View actionView = MenuItemCompat.getActionView(myItemOne);
-//        this.registerForContextMenu(actionView.findViewById(R.id.nav_refresh));
 
 
+
+        mListView = (ListView)findViewById(R.id.con_list_view);
 
 //        Menu menu = navigationView.getMenu();
 //        MenuItem myItemOne = menu.findItem(R.id.menu_cat_a);
@@ -119,7 +121,7 @@ public class TabActivity extends AppCompatActivity
         MenuItem myItemTwo = menu.findItem(R.id.menu_cat_b);
         View actionViewTwo = MenuItemCompat.getActionView(myItemTwo);
 //        TextView tV = (TextView) actionViewTwo.findViewById(R.id.nav_restaurant);
-        //View v = actionViewTwo.findViewById(R.id.nav_restaurant);
+//        View v = actionViewTwo.findViewById(R.id.nav_Favorites);
 //        this.registerForContextMenu(navigationView);
 
         mToggleButtonRestaurant = (Button) actionViewTwo.findViewById(R.id.nav_restaurant);
@@ -130,6 +132,20 @@ public class TabActivity extends AppCompatActivity
                 openContextMenu(v);
             }
         });
+
+        MenuItem myItemOne = menu.findItem(R.id.menu_cat_a);
+        View actionView = MenuItemCompat.getActionView(myItemOne);
+        mTextView = (TextView) actionView.findViewById(R.id.nav_bar);
+        mTextView.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                registerForContextMenu(v);
+                openContextMenu(v);
+            }
+        });
+
+
 
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
@@ -167,19 +183,38 @@ public class TabActivity extends AppCompatActivity
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.context_menu, menu);
+        String[] t = {"item1", "item2", "item3", "item4", "item5"};
+        for(int i = 0; i< 5; i++){
+            YelpLab tLab = YelpLab.get(this);
+            ArrayList<Business> tList = tLab.getBusiness();
+            Double d = tList.get(i).getDistance()*0.000621371;
+            String tmp = String.format("%.2f", d);
+            String m = tList.get(i).getName() + " (" + tmp + "m)";
 
+            menu.add(0,v.getId(),0, m);
+        }
 
-        
-//        ListAdapter myListAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, testTwo);
-//        mListView.setAdapter(myListAdapter);
-//        this.getMenuInflater().inflate(R.menu.context_menu, menu);
     }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
 
-    //    public boolean onCreateOptionsMenu(Menu menu){
-//        getMenuInflater().inflate(R.menu.drawer_menu, menu);
-//        return false;
-//    }
+        YelpLab tLab = YelpLab.get(this);
+        ArrayList<Business> tList = tLab.getBusiness();
+        for(int i =0; i< tList.size(); i++){
+            Double d = tList.get(i).getDistance()*0.000621371;
+            String tmp = String.format("%.2f", d);
+            String m = tList.get(i).getName() + " (" + tmp + "m)";
+            if(item.getTitle().toString().equals(m)){
+                Intent intent = YelpPagerActivity.newIntent(this, tList.get(i).getId());
+                startActivity(intent);
+            }
+        }
+
+        return super.onContextItemSelected(item);
+
+
+    }
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
         if(id == R.id.nav_refresh){
@@ -190,38 +225,25 @@ public class TabActivity extends AppCompatActivity
     }
 
 
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         YelpLab tYelpLab = YelpLab.get(getApplicationContext());
         int id = item.getItemId();
-        ToggleButton toggle = (ToggleButton) findViewById(R.id.nav_bar);
-        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Toast.makeText(getApplicationContext(), "Barssss", Toast.LENGTH_SHORT).show();
-                    Log.e("Drawer Menu", "Bars");
-                } else {
-                    Log.e("Drawer Menu", "Bars");
-                    Toast.makeText(getApplicationContext(), "Barsssss", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
         if (id == R.id.nav_refresh) {
-//            View actionView = MenuItemCompat.getActionView(item);
-            //registerForContextMenu(item.getActionView());
-            Toast.makeText(getApplicationContext(), "Barssss", Toast.LENGTH_SHORT).show();
-            Log.e("Drawer Menu", "Bars");
-            // Handle the camera action
+            Intent intent = getIntent();
+            finish();
+            startActivity(intent);
         } else if (id == R.id.nav_restaurant) {
-            Toast.makeText(getApplicationContext(), "Clubs", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), "Clubs", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_restaurant) {
-            Toast.makeText(getApplicationContext(), "Restaurants", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), "Restaurants", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_Favorites) {
-            Toast.makeText(getApplicationContext(), "Favorites", Toast.LENGTH_SHORT).show();
-            Log.e("Drawer Menu", "Bars");
+//            Toast.makeText(getApplicationContext(), "Favorites", Toast.LENGTH_SHORT).show();
+//            Log.e("Drawer Menu", "Bars");
         } else if (id == R.id.venue) {
             if(item.isChecked()){
                 item.setChecked(false);
@@ -229,8 +251,8 @@ public class TabActivity extends AppCompatActivity
             }else{
                 item.setChecked(true);
             }
-            Toast.makeText(getApplicationContext(), "Refresh", Toast.LENGTH_SHORT).show();
-            Log.e("Drawer Menu", "Bars");
+//            Toast.makeText(getApplicationContext(), "Refresh", Toast.LENGTH_SHORT).show();
+//            Log.e("Drawer Menu", "Bars");
             return false;
         } else if (id == R.id.n_bars){
             if(item.isChecked()){

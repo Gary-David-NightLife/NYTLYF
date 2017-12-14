@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <ToggleButton
-            android:id="@+id/nav_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:textOff="@string/menu_bar"
-            android:textOn="@string/menu_bar"
-            android:text="@string/menu_bar" />
+
+<TextView android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:id="@+id/nav_bar"
+    android:text="Find Me Meow                            "
+    android:gravity="center_vertical"
+    style="@android:style/TextAppearance.DeviceDefault.Widget.DropDownItem"
+    xmlns:android="http://schemas.android.com/apk/res/android" />
+
         <!--<ToggleButton-->
             <!--android:id="@+id/nav_club"-->
             <!--android:layout_width="wrap_content"-->
@@ -22,8 +16,3 @@
             <!--android:textOn="@string/menu_club"-->
             <!--android:text="@string/menu_club"/>-->
 
-    </LinearLayout>
-
-
-
-</LinearLayout>

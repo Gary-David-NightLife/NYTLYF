@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import com.vacuity.myapplication.models.model.NYTLYFhistory;
 import com.vacuity.myapplication.models.model.nytlyfLab;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -27,7 +27,7 @@ import java.util.Date;
 
 public class CalendarFragment extends Fragment {
     CalendarView mCalendar;
-    ArrayList<NYTLYFhistory> mHistory;
+    private ArrayList<NYTLYFhistory> mHistory;
     TextView mDateDisplay;
     ListView mListView;
 
@@ -41,18 +41,40 @@ public class CalendarFragment extends Fragment {
         mHistory = tLab.getHistory();
     }
     private ArrayList<String> getRelevant(Date tm){
+        setHistory();
         ArrayList<String> myResults = new ArrayList<>();
+
+        Calendar tmp = toCalendar(tm);
+        tmp.set(Calendar.MILLISECOND, 0);
+        tmp.set(Calendar.SECOND, 0);
+        tmp.set(Calendar.MINUTE, 0);
+        tmp.set(Calendar.HOUR, 0);
+
+
+
         for(int i =0; i< mHistory.size(); i++){
-            Log.e("List", mHistory.get(i).getmDate().toString());
-            Log.e("List", tm.toString());
-            if(mHistory.get(i).getmDate().equals(tm)){
-                myResults.add(mHistory.get(i).getmName());
-                Log.e("List", "getting results");
+
+//            Log.e("List", mHistory.get(i).getmDate().toString());
+//            Log.e("List", tm.toString());
+            Calendar hist = toCalendar(mHistory.get(i).getmDate());
+            hist.set(Calendar.MILLISECOND, 0);
+            hist.set(Calendar.SECOND, 0);
+            hist.set(Calendar.MINUTE, 0);
+            hist.set(Calendar.HOUR, 0);
+
+            if(tmp.equals(hist)){
+
+                        myResults.add(mHistory.get(i).getmName());
+//                Log.e("List", "getting results");
             }
         }
         return myResults;
     }
-
+    public static Calendar toCalendar(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -86,15 +108,11 @@ public class CalendarFragment extends Fragment {
         });
 
 
-        setHistory();
-        if(mHistory!=null){
-
-            for(int i =0; i<mHistory.size(); i++){
-
-            }
-        }
-
 
         return v;
+    }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+
     }
 }
