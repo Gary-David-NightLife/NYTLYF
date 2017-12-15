@@ -113,7 +113,6 @@ public class YelpLab {
         return mClub;
     }
     public Boolean getBar(){
-        mBar = true;
         return mBar;
     }
     public void setVenue(Boolean b){
@@ -129,5 +128,6 @@ public class YelpLab {
         mRest = false;
         mBar = false;
         mClub = false;
+        mVenue = false;
     }
 }

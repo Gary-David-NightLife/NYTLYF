@@ -184,15 +184,22 @@ public class TabActivity extends AppCompatActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.context_menu, menu);
         String[] t = {"item1", "item2", "item3", "item4", "item5"};
+        YelpLab tLab = YelpLab.get(this);
+        ArrayList<Business> tList = tLab.getBusiness();
+
         for(int i = 0; i< 5; i++){
-            YelpLab tLab = YelpLab.get(this);
-            ArrayList<Business> tList = tLab.getBusiness();
             Double d = tList.get(i).getDistance()*0.000621371;
             String tmp = String.format("%.2f", d);
             String m = tList.get(i).getName() + " (" + tmp + "m)";
 
             menu.add(0,v.getId(),0, m);
         }
+
+//        for(int i = 0; i<tList.size(); i++){
+//            for(int j = 0; j<tList.get(i).getCategories().size(); j++){
+//                String ct = tList.get(i).getCategories().get(j).getTitle();
+//            }
+//        }
 
     }
 
@@ -247,11 +254,11 @@ public class TabActivity extends AppCompatActivity
         } else if (id == R.id.venue) {
             if(item.isChecked()){
                 item.setChecked(false);
-                tYelpLab.setRest(Boolean.FALSE);
+                tYelpLab.setVenue(Boolean.FALSE);
 
             }else{
                 item.setChecked(true);
-                tYelpLab.setRest(Boolean.TRUE);
+                tYelpLab.setVenue(Boolean.TRUE);
             }
 //            Toast.makeText(getApplicationContext(), "Refresh", Toast.LENGTH_SHORT).show();
 //            Log.e("Drawer Menu", "Bars");

@@ -15,7 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -111,6 +110,11 @@ public class MapsFragment extends Fragment
         LatLng sydney = new LatLng(latitude, longitude);
         mMap.addMarker(new MarkerOptions().position(sydney).title("I'm here...")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney)
+                .zoom(15)
+                .bearing(4)
+                .build();
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
 
@@ -122,10 +126,11 @@ public class MapsFragment extends Fragment
         if(tYelpLab.getBar()){
             paramters.put("categories", "bars");
         }
-        paramters.put("categories", "nightlife");
-        if(tYelpLab.getClub()){
+        paramters.put("sort_by", "distance");
 
+        if(tYelpLab.getClub()){
             paramters.put("categories", "nightlife");
+            paramters.put("categories", "danceclubs");
         }
         if(tYelpLab.getRest()){
             paramters.put("categories", "restaurants");
@@ -150,13 +155,27 @@ public class MapsFragment extends Fragment
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        Toast.makeText(getActivity(), "Map: On User Visible", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "Map: On User Visible", Toast.LENGTH_SHORT).show();
+
         return false;
     }
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        Toast.makeText(getActivity(), "Map: Info Tag", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "Map: Info Tag", Toast.LENGTH_SHORT).show();
+//        String t = marker.getTitle();
+//        YelpLab tYelpLab = YelpLab.get(getActivity());
+//        ArrayList<Business> myList = tYelpLab.getBusiness();
+//
+//        for(int i = 0; i<myList.size(); i++ ){
+//            if(myList.get(i).getName() == t){
+//
+//                Intent intent = YelpPagerActivity.newIntent(getActivity(), myList.get(i).getId());
+//                startActivity(intent);
+//            }
+//        }
+
+
     }
 
     private void refreshLocation(){
@@ -256,12 +275,14 @@ public class MapsFragment extends Fragment
         for(String ss : queryTerms){
             paramters.put("term", ss);
         }
+        paramters.put("sort_by", "distance");
         YelpLab tYelpLab = YelpLab.get(getActivity());
-        paramters.put("categories", "nightlife");
+
         if(tYelpLab.getBar()){
             paramters.put("categories", "bars");
         }
         if(tYelpLab.getClub()){
+            paramters.put("categories", "nightlife");
             paramters.put("categories", "danceclubs");
 
         }
