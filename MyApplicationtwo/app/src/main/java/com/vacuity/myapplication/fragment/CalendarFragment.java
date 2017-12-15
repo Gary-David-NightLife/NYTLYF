@@ -60,9 +60,7 @@ public class CalendarFragment extends Fragment {
 //        tmp2.add(Calendar.DAY_OF_MONTH, 1);
 
 
-
         for(int i =0; i< mHistory.size(); i++){
-
 //            Log.e("List", mHistory.get(i).getmDate().toString());
 //            Log.e("List", tmp2.toString());
             Calendar hist = toCalendar(mHistory.get(i).getmDate());
@@ -110,7 +108,9 @@ public class CalendarFragment extends Fragment {
                 mListView.setAdapter(myListAdapter);
 
             }
+
         });
+
 
 
 
